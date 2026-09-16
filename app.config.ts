@@ -43,6 +43,7 @@ const config: ExpoConfig = {
     'expo-localization',
     'expo-sqlite',
     './plugins/withReleaseSigning',
+    './plugins/withKotlinMetadataCheck',
   ],
 };
 
