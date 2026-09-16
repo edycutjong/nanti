@@ -11,7 +11,14 @@ const read = (p) =>
 const problems = [];
 const warns = [];
 
-for (const f of ['README.md', 'DEMO.md', 'ARCHITECTURE.md', 'docs/LEDGER.md', 'docs/SPIKE.md']) {
+for (const f of [
+  'README.md',
+  'DEMO.md',
+  'JUDGE.md',
+  'ARCHITECTURE.md',
+  'docs/LEDGER.md',
+  'docs/SPIKE.md',
+]) {
   const body = read(f);
   if (body === null) {
     problems.push(`${f} missing`);

@@ -1,0 +1,29 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types: ['minor', 'patch']
+    ignore:
+      # Major bumps are framework migrations, not maintenance. Expo pins its own
+      # SDK-compatible ranges; RN/React move only with `expo install --fix`.
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'react-native'
+      - dependency-name: 'react'
+      # The reward-verification APIs are @beta; a bump here is a deliberate re-test, not maintenance.
+      - dependency-name: 'react-native-purchases'
+      - dependency-name: 'react-native-purchases-ui'
+      - dependency-name: 'react-native-google-mobile-ads'
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    open-pull-requests-limit: 3
+    groups:
+      actions:
+        patterns: ['*']

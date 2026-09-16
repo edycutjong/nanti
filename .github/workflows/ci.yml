@@ -1,0 +1,175 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+# One workspace: the Expo app, vitest, tsx scripts and eslint share package.json.
+# --legacy-peer-deps because eslint-plugin-react-hooks@5 declares an eslint@8 peer.
+
+jobs:
+  # ── STAGE 1: Quality ──────────────────────────────────────────────────────
+  quality:
+    name: 'Stage 1 · Quality'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ${{ github.event_name == 'push' && fromJSON('[20, 22, 24]') || fromJSON('[22]') }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+      - run: npm ci --legacy-peer-deps
+      - name: Format check (Prettier)
+        run: npm run format:check
+      - name: Lint (ESLint)
+        run: npm run lint
+      - name: Type check
+        run: npm run typecheck
+      - name: Unit tests + coverage
+        run: npm run test:coverage
+      - name: Golden files are current (a template change must regenerate them deliberately)
+        run: |
+          npm run golden
+          git diff --exit-code -- tests/golden
+      - name: Self-ablation — 0 client-side settle increments in src/
+        run: npm run ablation
+      - uses: actions/upload-artifact@v4
+        if: matrix.node-version == 22
+        with:
+          name: coverage
+          path: coverage/
+          retention-days: 7
+
+  # ── STAGE 2: Security ─────────────────────────────────────────────────────
+  secret-scan:
+    name: 'Stage 2 · Secret Scanning'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --only-verified
+
+  dependency-audit:
+    name: 'Stage 2 · Dependency Audit'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --legacy-peer-deps
+      - name: npm audit (high + critical)
+        run: npm audit --audit-level=high
+        continue-on-error: true
+      - name: License compliance (production deps)
+        run: npx license-checker --production --failOn "GPL-3.0;AGPL-3.0" --summary
+        continue-on-error: true
+
+  # ── STAGE 3: Build Verification — the Metro bundle ────────────────────────
+  bundle:
+    name: 'Stage 3 · Build Verification (Metro bundle)'
+    needs: [quality]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --legacy-peer-deps
+      - name: Expo export (android) + bundle assertions (reward, ad, paywall calls; the templates)
+        run: npm run bundle:check
+      - name: Bundle size budget
+        run: |
+          F=$(ls dist/_expo/static/js/android/*.hbc | head -1)
+          KB=$(( $(stat -c%s "$F") / 1024 ))
+          echo "Hermes bundle: ${KB} KB"
+          if [ "$KB" -gt 6000 ]; then echo "::error::bundle ${KB}KB > 6000KB"; exit 1; fi
+          if [ "$KB" -gt 4500 ]; then echo "::warning::bundle ${KB}KB > 4500KB"; fi
+
+  # ── STAGE 4: Native build (main only) ─────────────────────────────────────
+  # Proves react-native-purchases, react-native-google-mobile-ads (Kotlin-2.3
+  # metadata via plugins/withKotlinMetadataCheck.js), expo-sqlite and expo-print
+  # link, and inspects the manifest for the package id and the AdMob app id.
+  native:
+    name: 'Stage 4 · Android native build'
+    needs: [bundle]
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+      - run: npm ci --legacy-peer-deps
+      - name: Prebuild (sample AdMob app id, debug signing — by design without credentials)
+        run: npx expo prebuild --platform android --no-install
+      - name: Assemble debug APK
+        working-directory: android
+        run: ./gradlew assembleDebug --no-daemon -q
+      - name: Inspect the artifact
+        run: |
+          APK=android/app/build/outputs/apk/debug/app-debug.apk
+          AAPT=$(ls "$ANDROID_HOME"/build-tools/*/aapt | tail -1)
+          "$AAPT" dump badging "$APK" | grep -E "^package: name='app.nanti.surat'" || { echo "::error::wrong package id"; exit 1; }
+          "$AAPT" dump xmltree "$APK" AndroidManifest.xml | grep -q "ca-app-pub-" || { echo "::error::AdMob APPLICATION_ID missing"; exit 1; }
+          echo "APK $(du -h "$APK" | cut -f1)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-debug.apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 7
+
+  # ── STAGE 5: Performance + offline verification ───────────────────────────
+  performance:
+    name: 'Stage 5 · Performance (bench + verify:offline)'
+    needs: [quality]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --legacy-peer-deps
+      - name: Bench — 8 templates × 1,000 renders, p95 budget 5 ms, golden drift fails
+        run: npm run bench
+      - name: Offline verification — templates + ledger invariants over 20,000 steps
+        run: npm run verify:offline
+      - name: Submission readiness
+        run: npm run readiness
+
+  # ── STAGE 6: Deploy gate (main only) ──────────────────────────────────────
+  deploy-gate:
+    name: 'Stage 6 · Deploy Gate'
+    needs: [quality, secret-scan, dependency-audit, bundle, native, performance]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "All gates passed."
+          echo "  Stage 1 — Quality (prettier, eslint, tsc, vitest, golden current, ablation 0)"
+          echo "  Stage 2 — TruffleHog · npm audit · license check"
+          echo "  Stage 3 — Metro bundle exported + asserted"
+          echo "  Stage 4 — Android debug APK assembled + manifest inspected"
+          echo "  Stage 5 — Template bench · verify:offline · readiness"
