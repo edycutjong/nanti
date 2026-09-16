@@ -63,16 +63,6 @@ export function v(value: string | undefined): string {
   return t ? escapeHtml(t) : '<span class="blank">………………</span>';
 }
 
-/** Multiline → paragraphs; single newlines become <br>. */
-export function para(value: string | undefined): string {
-  const t = (value ?? '').trim();
-  if (!t) return `<p>${v('')}</p>`;
-  return t
-    .split(/\n{2,}/)
-    .map((p) => `<p>${escapeHtml(p).replace(/\n/g, '<br>')}</p>`)
-    .join('\n');
-}
-
 /** "a, b, c" → ["a","b","c"]; "-" or empty → []. */
 export function daftar(value: string | undefined): string[] {
   const t = (value ?? '').trim();

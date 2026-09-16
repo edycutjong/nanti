@@ -101,10 +101,39 @@ describe('eight templates', () => {
     );
   });
 
+  it('isComplete treats a missing key the same as an empty value', () => {
+    expect(isComplete(getTemplate('izin-kerja')!, {})).toBe(false);
+  });
+
+  it('clampValues fills in a missing key as an empty string', () => {
+    const t = getTemplate('izin-kerja')!;
+    expect(clampValues(t, {})).toEqual({
+      nama: '',
+      jabatan: '',
+      tujuan: '',
+      alasan: '',
+      tanggalIzin: '',
+    });
+  });
+
   it('pdfFileName is a real name, not Print_xxx.pdf', () => {
     expect(pdfFileName(getTemplate('izin-kerja')!, golden['izin-kerja'], '2026-09-15')).toBe(
       'Surat-Izin-Kerja-Dina-Rahmawati-2026-09-15.pdf',
     );
+  });
+
+  it('pdfFileName with no values at all omits the writer slug entirely', () => {
+    expect(pdfFileName(getTemplate('izin-kerja')!, {}, '2026-09-15')).toBe(
+      'Surat-Izin-Kerja-2026-09-15.pdf',
+    );
+  });
+
+  it('pdfFileName normalizes non-ASCII and truncates a long writer slug to 40 chars', () => {
+    const long = 'ÁÉÍÓÚ ' + 'Wibowo '.repeat(10);
+    const name = pdfFileName(getTemplate('izin-kerja')!, { nama: long }, '2026-09-15');
+    const slug = name.replace('Surat-Izin-Kerja-', '').replace('-2026-09-15.pdf', '');
+    expect(slug.length).toBe(40);
+    expect(slug.startsWith('AEIOU-Wibowo')).toBe(true);
   });
 
   it('unknown template id throws', () => {

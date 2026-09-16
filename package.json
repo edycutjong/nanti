@@ -23,7 +23,7 @@
     "bundle:check": "expo export --platform android --output-dir dist --clear >/dev/null && node scripts/bundle-check.js",
     "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test:coverage && npm run bench && npm run verify:offline && npm run ablation && npm run readiness",
     "ios": "expo run:ios",
-    "test:coverage": "vitest run --coverage.enabled --coverage.provider=v8 --coverage.reporter=text --coverage.reporter=lcov --coverage.include='packages/**' --coverage.include='src/ledger/tab.ts' --coverage.include='src/ads/settleState.ts' --coverage.include='src/i18n/**'",
+    "test:coverage": "vitest run --coverage.enabled --coverage.provider=v8 --coverage.reporter=text --coverage.reporter=lcov --coverage.include='packages/**' --coverage.include='src/ledger/tab.ts' --coverage.include='src/ads/settleState.ts' --coverage.include='src/i18n/**' --coverage.thresholds.100",
     "audit": "npm audit --audit-level=high",
     "secrets": "gitleaks git --no-banner --redact .",
     "ci:full": "npm run ci && npm run bundle:check"
