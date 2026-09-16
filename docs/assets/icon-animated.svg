@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Nanti — The amber one-ad tab under a delivered letter turns green the instant RevenueCat verifies the reward.">
+<!-- STORYBOARD (dur 6s — must equal this file's single master dur)
+  0-8%    steady state: plate, the delivered letter (warm paper, letter lines) and the amber one-ad tab with its play glyph — all visible at t=0 (poster rule)
+  8-28%   trigger:      the letter's edge draws itself in amber (the letter is already out) and a green verification comet leaves the top-right corner (RevenueCat's server) toward the tab        data-story="beat-2"
+  28-48%  mechanism:    The amber one-ad tab under a delivered letter turns green the instant RevenueCat verifies the reward.        data-story="beat-3"
+  48-92%  resolution:   the tab STAYS green with its check; a green glow breathes under it — settled persists to the seam        data-story="beat-4"
+  92-100% breathe + seam fade: story layers fade out 92-98% and hold at 0, so the loop restarts on the amber poster without a hard cut (rules 5-7)
+-->
+  <defs>
+    <clipPath id="plateClip"><rect width="512" height="512" rx="112"/></clipPath>
+    <linearGradient id="plateG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1A2027"/>
+      <stop offset="1" stop-color="#0F1419"/>
+    </linearGradient>
+    <linearGradient id="paperG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFDF7"/>
+      <stop offset="1" stop-color="#F3EEE1"/>
+    </linearGradient>
+    <radialGradient id="owedPool" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#F2A93B" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#F2A93B" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="settledPool" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#34D399" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#34D399" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="paperShadow" x="-25%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+    <filter id="tabShadow" x="-25%" y="-50%" width="150%" height="220%">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="soft" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+    <filter id="glow" x="-40%" y="-90%" width="180%" height="280%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+  </defs>
+  <style>
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  </style>
+
+  <g clip-path="url(#plateClip)">
+    <!-- plate (self-carried: holds on GitHub light AND dark) -->
+    <rect width="512" height="512" rx="112" fill="url(#plateG)"/>
+
+    <!-- amber pool where the tab lives; the green pool takes over on the verified reward -->
+    <circle cx="356" cy="336" r="160" fill="url(#owedPool)"/>
+    <circle cx="356" cy="336" r="160" fill="url(#settledPool)" opacity="0" data-story="beat-3">
+      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.28;0.36;0.92;0.98;1" dur="6s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- the letter — already delivered (visible at t=0) -->
+    <g filter="url(#paperShadow)">
+      <rect x="118" y="84" width="232" height="340" rx="16" fill="url(#paperG)"/>
+    </g>
+    <rect x="134" y="84" width="200" height="3" rx="1.5" fill="#FFFFFF" fill-opacity="0.9"/>
+    <g fill="#171B22">
+      <rect x="228" y="116" width="92" height="9" rx="4.5" opacity="0.5"/>
+      <rect x="148" y="150" width="144" height="10" rx="5" opacity="0.74"/>
+      <rect x="148" y="178" width="96" height="9" rx="4.5" opacity="0.42"/>
+      <rect x="148" y="198" width="134" height="9" rx="4.5" opacity="0.42"/>
+      <rect x="148" y="232" width="172" height="9" rx="4.5" opacity="0.28"/>
+      <rect x="148" y="252" width="172" height="9" rx="4.5" opacity="0.28"/>
+      <rect x="148" y="272" width="146" height="9" rx="4.5" opacity="0.28"/>
+      <rect x="148" y="378" width="74" height="9" rx="4.5" opacity="0.6"/>
+    </g>
+
+    <!-- beat-2: the letter's edge draws itself in amber — it is already out of the phone -->
+    <rect x="118" y="84" width="232" height="340" rx="16" fill="none" stroke="#F2A93B" stroke-width="5" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" opacity="0" data-story="beat-2">
+      <animate attributeName="stroke-dashoffset" values="100;100;0;0;0" keyTimes="0;0.08;0.24;0.92;1" dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;0;0.95;0.95;0;0" keyTimes="0;0.08;0.10;0.26;0.34;1" dur="6s" repeatCount="indefinite"/>
+    </rect>
+
+    <!-- the tab: ONE ad owed, hanging off the letter's right edge (visible at t=0) -->
+    <g filter="url(#tabShadow)">
+      <rect x="262" y="300" width="172" height="68" rx="34" fill="#F2A93B"/>
+    </g>
+
+    <!-- beat-4: glow breath under the settled tab (drawn under the green fill) -->
+    <rect x="262" y="300" width="172" height="68" rx="34" fill="#34D399" filter="url(#glow)" opacity="0" data-story="beat-4">
+      <animate attributeName="opacity" values="0;0;0.6;0.25;0.6;0.25;0.55;0;0" keyTimes="0;0.44;0.52;0.62;0.72;0.82;0.90;0.97;1" dur="6s" repeatCount="indefinite"/>
+    </rect>
+
+    <!-- beat-3: the tab turns green — settled, and it STAYS -->
+    <rect x="262" y="300" width="172" height="68" rx="34" fill="#34D399" opacity="0" data-story="beat-3">
+      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.28;0.34;0.92;0.98;1" dur="6s" repeatCount="indefinite"/>
+    </rect>
+
+    <!-- beat-3: ripple at the instant of verification -->
+    <circle cx="348" cy="334" r="30" fill="none" stroke="#34D399" stroke-width="6" opacity="0" data-story="beat-3">
+      <animate attributeName="r" values="30;30;150;150" keyTimes="0;0.28;0.46;1" dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;0;0.85;0;0" keyTimes="0;0.28;0.30;0.46;1" dur="6s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- one ad to watch: visible at t=0, yields to the check on settle -->
+    <path d="M337 316 L371 334 L337 352 Z" fill="#171B22" opacity="1">
+      <animate attributeName="opacity" values="1;1;0;0;1;1" keyTimes="0;0.28;0.34;0.92;0.98;1" dur="6s" repeatCount="indefinite"/>
+    </path>
+
+    <!-- beat-3: the check draws itself in -->
+    <path d="M318 334 L341 356 L382 312" fill="none" stroke="#171B22" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" opacity="0" data-story="beat-3">
+      <animate attributeName="stroke-dashoffset" values="100;100;0;0;0" keyTimes="0;0.34;0.46;0.98;1" dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.34;0.35;0.92;0.98;1" dur="6s" repeatCount="indefinite"/>
+    </path>
+
+    <!-- beat-2: verification comet from the top-right (RevenueCat's server) to the tab -->
+    <g opacity="0" data-story="beat-2">
+      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.12;0.14;0.27;0.30;1" dur="6s" repeatCount="indefinite"/>
+      <circle r="11" fill="#34D399" filter="url(#soft)"/>
+      <circle r="5" fill="#FFFFFF"/>
+      <animateMotion path="M456 56 C 456 150, 430 250, 380 318" dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.12;0.28;1"/>
+    </g>
+  </g>
+
+  <!-- rim -->
+  <rect x="1.5" y="1.5" width="509" height="509" rx="110.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="3"/>
+</svg>
