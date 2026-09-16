@@ -1,0 +1,55 @@
+/** Indonesian chrome. The letters themselves are always Indonesian regardless of locale. */
+export const id = {
+  app: { name: 'Nanti', tagline: 'Suratnya sekarang, iklannya nanti.' },
+  home: { title: 'Mau buat surat apa?', settings: 'Pengaturan' },
+  pill: { owed: 'Tab: 1 iklan · bayar nanti', clear: 'Tab kosong', pro: 'Pro' },
+  form: {
+    back: 'Kembali',
+    city: 'Kota',
+    date: 'Tanggal',
+    cta: 'Buat PDF',
+    making: 'Membuat PDF…',
+    preview: 'Pratinjau',
+    changeCity: 'Ganti kota',
+    changeDate: 'Ganti tanggal',
+  },
+  settle: {
+    title: '1 iklan belum dibayar',
+    subtitle: 'Suratmu sudah terkirim. Bayar sekarang, atau nanti.',
+    watch: 'Tonton 1 iklan (±20 dtk)',
+    loading: 'memuat iklan…',
+    playing: 'iklan sedang diputar',
+    verifying: 'memverifikasi…',
+    settled: 'Lunas — terima kasih',
+    failed: 'Verifikasi gagal — coba iklan lain',
+    noFill: 'Iklan belum tersedia. Tab tetap 1, tidak pernah 2.',
+    closedEarly: 'Iklan ditutup sebelum selesai. Tab tetap 1.',
+    pro: 'Nanti Pro — tanpa iklan selamanya',
+    later: 'Nanti saja',
+    continue: 'Lanjut dulu',
+  },
+  settings: {
+    title: 'Pengaturan',
+    restore: 'Pulihkan pembelian',
+    restored: 'Pembelian dipulihkan',
+    language: 'Bahasa',
+    auto: 'Otomatis',
+    receipt: 'Bukti RevenueCat',
+    balance: 'Saldo ADS',
+    entitlement: 'Langganan Pro',
+    active: 'aktif',
+    inactive: '—',
+    userId: 'ID pengguna',
+    lastSettles: '5 penyelesaian terakhir',
+    refresh: 'Muat ulang',
+    forgiven: 'Surat dengan iklan yang dimaafkan',
+    letters: 'Surat dibuat',
+    noKey: 'Kunci RevenueCat belum diatur untuk build ini.',
+    about: 'Tentang',
+  },
+  share: { title: 'Kirim surat' },
+};
+
+/** Deep-widened string shape so `en` can carry different text under identical keys. */
+type Widen<T> = { [K in keyof T]: T[K] extends string ? string : Widen<T[K]> };
+export type Strings = Widen<typeof id>;
