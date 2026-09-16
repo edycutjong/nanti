@@ -40,7 +40,7 @@
   <h2>Receipts</h2>
   <table>
     <tr><th></th><th>Value</th><th>Verify</th></tr>
-    <tr><td>Tests</td><td><strong>71</strong>, &lt; 2 s, no device, no key</td><td><code>npm test</code></td></tr>
+    <tr><td>Tests</td><td><strong>72</strong>, &lt; 2 s, no device, no key</td><td><code>npm test</code></td></tr>
     <tr><td>Exhaustive verification</td><td><strong>70,602</strong> ledger transitions — debt ∈ {0,1}, never lowered by a client event; <strong>299,592</strong> settle-machine paths — <code>settled</code> only via <code>verified</code>; 0 violations</td><td><code>tests/exhaustive.test.ts</code></td></tr>
     <tr><td>Self-ablation</td><td><strong>0</strong> client-side settle increments in <code>src/</code></td><td><code>npm run ablation</code></td></tr>
     <tr><td>Templates</td><td>8, byte-identical to golden files; p95 ≤ 4 µs per render</td><td><code>npm run bench</code></td></tr>

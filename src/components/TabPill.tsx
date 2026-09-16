@@ -9,9 +9,13 @@ import { useApp } from '../state/AppContext';
 import { color, radius, space } from '../theme/tokens';
 
 export function TabPill({ onPress }: { onPress: () => void }) {
-  const { debt, isPro, t } = useApp();
+  const { debt, isPro, t, adsBalance } = useApp();
   const [flash, setFlash] = useState(false);
   const prev = useRef(debt);
+  // The balance the pill last saw while owed — so the green flash can read the receipt:
+  // "Settled · ADS 0 → 1". The number comes from the server read that cleared the debt.
+  const owedBalance = useRef(adsBalance);
+  if (debt === 1) owedBalance.current = adsBalance;
   const slide = useRef(new Animated.Value(debt === 1 ? 1 : 0)).current;
 
   useEffect(() => {
@@ -52,10 +56,12 @@ export function TabPill({ onPress }: { onPress: () => void }) {
         onPress={onPress}
         style={[s.pill, flash ? s.settled : s.owed]}
         accessibilityRole="button"
-        accessibilityLabel={flash ? t.pill.clear : t.pill.owed}
+        accessibilityLabel={
+          flash ? `${t.pill.settled} · ADS ${owedBalance.current} → ${adsBalance}` : t.pill.owed
+        }
       >
         <T variant="bold" style={{ color: flash ? color.settled : color.owed }}>
-          {flash ? `✓ ${t.pill.clear}` : t.pill.owed}
+          {flash ? `✓ ${t.pill.settled} · ADS ${owedBalance.current} → ${adsBalance}` : t.pill.owed}
         </T>
       </Press>
     </Animated.View>

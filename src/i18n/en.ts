@@ -4,7 +4,7 @@ import type { Strings } from './id';
 export const en: Strings = {
   app: { name: 'Nanti', tagline: 'The letter now. The ad later.' },
   home: { title: 'Which letter do you need?', settings: 'Settings' },
-  pill: { owed: 'Tab: 1 ad owed · pay later', clear: 'Tab clear', pro: 'Pro' },
+  pill: { owed: 'Tab: 1 ad owed · pay later', settled: 'Settled', pro: 'Pro' },
   form: {
     back: 'Back',
     city: 'City',

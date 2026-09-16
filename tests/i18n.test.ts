@@ -31,4 +31,13 @@ describe('i18n', () => {
     expect(id.app.tagline).toBe('Suratnya sekarang, iklannya nanti.');
     expect(en.app.tagline).toBe('The letter now. The ad later.');
   });
+
+  it('the settled pill composes to the exact string the asset suite renders: "Settled · ADS 0 → 1"', () => {
+    // generate-readme-hero.html / generate-og-image.html show the green pill as "Settled · ADS 0 → 1";
+    // TabPill renders `✓ ${pill.settled} · ADS ${before} → ${after}` on the debt 1 → 0 transition.
+    const compose = (s: ReturnType<typeof strings>, before: number, after: number) =>
+      `${s.pill.settled} · ADS ${before} → ${after}`;
+    expect(compose(strings('en'), 0, 1)).toBe('Settled · ADS 0 → 1');
+    expect(compose(strings('id'), 0, 1)).toBe('Lunas · ADS 0 → 1');
+  });
 });

@@ -2,7 +2,7 @@
 export const id = {
   app: { name: 'Nanti', tagline: 'Suratnya sekarang, iklannya nanti.' },
   home: { title: 'Mau buat surat apa?', settings: 'Pengaturan' },
-  pill: { owed: 'Tab: 1 iklan · bayar nanti', clear: 'Tab kosong', pro: 'Pro' },
+  pill: { owed: 'Tab: 1 iklan · bayar nanti', settled: 'Lunas', pro: 'Pro' },
   form: {
     back: 'Kembali',
     city: 'Kota',
