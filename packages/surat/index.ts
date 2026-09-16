@@ -55,7 +55,7 @@ export function clampValues(t: Template, values: Values): Values {
   return out;
 }
 
-/** "Surat-izin-kerja-Dina-Rahmawati-2026-09-15.pdf" */
+/** "Surat-Izin-Kerja-Dina-Rahmawati-2026-09-15.pdf" — the template id title-cased, the first field (the writer) slugged. */
 export function pdfFileName(t: Template, values: Values, isoDate: string): string {
   const who = Object.values(values)[0] ?? '';
   const slug = who
@@ -64,5 +64,9 @@ export function pdfFileName(t: Template, values: Values, isoDate: string): strin
     .trim()
     .replace(/\s+/g, '-')
     .slice(0, 40);
-  return `Surat-${t.id}${slug ? `-${slug}` : ''}-${isoDate}.pdf`;
+  const jenis = t.id
+    .split('-')
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join('-');
+  return `Surat-${jenis}${slug ? `-${slug}` : ''}-${isoDate}.pdf`;
 }

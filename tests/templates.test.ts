@@ -103,7 +103,7 @@ describe('eight templates', () => {
 
   it('pdfFileName is a real name, not Print_xxx.pdf', () => {
     expect(pdfFileName(getTemplate('izin-kerja')!, golden['izin-kerja'], '2026-09-15')).toBe(
-      'Surat-izin-kerja-Dina-Rahmawati-2026-09-15.pdf',
+      'Surat-Izin-Kerja-Dina-Rahmawati-2026-09-15.pdf',
     );
   });
 

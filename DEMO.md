@@ -25,7 +25,7 @@ ablation: 0 client-side settle increments in src/ (must be 0)
 ## 2. The judge path on a device (dev build, < 3 minutes)
 
 1. Install (`npx expo run:android` with `.env` filled). Home shows eight tiles and no pill.
-2. **Surat Izin Tidak Masuk Kerja** → the five fields (city and date already filled) → the paper preview updates on every keystroke → **Buat PDF** → the share sheet opens with `Surat-izin-kerja-<name>-<date>.pdf`. _Nothing about an ad has appeared yet._
+2. **Surat Izin Tidak Masuk Kerja** → the five fields (city and date already filled) → the paper preview updates on every keystroke → **Buat PDF** → the share sheet opens with `Surat-Izin-Kerja-<name>-<date>.pdf`. _Nothing about an ad has appeared yet._
 3. Back on Home: the amber pill **`Tab: 1 iklan · bayar nanti`** slides in.
 4. Tap any tile → the Settle sheet. **Tonton 1 iklan** → the rewarded ad plays → _memverifikasi…_ → the counter ticks `ADS 0 → 1`, the pill turns green for 2 s and disappears. (Requires the real `settle_rewarded` unit with SSV → RevenueCat; on the sample unit this step correctly ends in _Verifikasi gagal_ and the tab stays.)
 5. Make a second letter (Surat Kuasa — visibly different structure). Pill again. This time tap **Nanti Pro** → the RevenueCat paywall at placement `tab_locked` → start the 7-day trial (Test Store: instant) → the pill is replaced by a violet **Pro** chip and never returns.
