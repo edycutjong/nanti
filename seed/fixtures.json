@@ -1,0 +1,104 @@
+{
+  "frozen": { "kota": "Jakarta", "tanggal": "15 September 2026", "iso": "2026-09-15" },
+  "people": [
+    { "nama": "Dina Rahmawati", "jabatan": "Staf Administrasi", "nik": "3171234567890001" },
+    { "nama": "Yanto Prasetyo", "jabatan": "Pengemudi", "nik": "3275098765430002" },
+    { "nama": "Rani Kusuma Dewi", "jabatan": "Fresh Graduate", "nik": "3374567812340003" }
+  ],
+  "orgs": [
+    { "nama": "PT Sinar Nusantara Abadi", "unit": "Kepala Bagian SDM" },
+    { "nama": "SD Negeri 07 Pagi Cempaka", "unit": "Wali Kelas 4B" },
+    { "nama": "Kantor Kelurahan Mekar Jaya", "unit": "Bagian Pelayanan" }
+  ],
+  "cities": ["Jakarta", "Bandung", "Surabaya", "Yogyakarta", "Medan", "Makassar"],
+  "demo": {
+    "letter1": {
+      "template": "izin-kerja",
+      "fields": {
+        "nama": "Dina Rahmawati",
+        "jabatan": "Staf Administrasi",
+        "tujuan": "Kepala Bagian SDM, PT Sinar Nusantara Abadi",
+        "alasan": "sakit demam, disertai surat keterangan dokter",
+        "tanggalIzin": "Selasa, 15 September 2026"
+      }
+    },
+    "letter2": {
+      "template": "kuasa",
+      "fields": {
+        "pemberi": "Dina Rahmawati — NIK 3171234567890001",
+        "penerima": "Yanto Prasetyo — NIK 3275098765430002",
+        "keperluan": "mengambil dokumen Kartu Keluarga",
+        "instansi": "Kantor Kelurahan Mekar Jaya",
+        "masaBerlaku": "15–22 September 2026"
+      }
+    },
+    "letter3": {
+      "template": "pernyataan",
+      "fields": {
+        "nama": "Rani Kusuma Dewi",
+        "nik": "3374567812340003",
+        "alamat": "Jl. Melati No. 12, Yogyakarta",
+        "isi": "belum pernah menerima beasiswa dari lembaga manapun",
+        "keperluan": "persyaratan pendaftaran beasiswa"
+      }
+    }
+  },
+  "golden": {
+    "izin-kerja": {
+      "nama": "Dina Rahmawati",
+      "jabatan": "Staf Administrasi",
+      "tujuan": "Kepala Bagian SDM, PT Sinar Nusantara Abadi",
+      "alasan": "sakit demam, disertai surat keterangan dokter",
+      "tanggalIzin": "Selasa, 15 September 2026"
+    },
+    "izin-sekolah": {
+      "namaWali": "Yanto Prasetyo",
+      "namaSiswa": "Putri Ayu Prasetyo",
+      "kelasSekolah": "Kelas 4B, SD Negeri 07 Pagi Cempaka",
+      "alasan": "sakit demam",
+      "tanggalIzin": "Selasa, 15 September 2026"
+    },
+    "kuasa": {
+      "pemberi": "Dina Rahmawati — NIK 3171234567890001",
+      "penerima": "Yanto Prasetyo — NIK 3275098765430002",
+      "keperluan": "mengambil dokumen Kartu Keluarga",
+      "instansi": "Kantor Kelurahan Mekar Jaya",
+      "masaBerlaku": "15–22 September 2026"
+    },
+    "pernyataan": {
+      "nama": "Rani Kusuma Dewi",
+      "nik": "3374567812340003",
+      "alamat": "Jl. Melati No. 12, Yogyakarta",
+      "isi": "belum pernah menerima beasiswa dari lembaga manapun",
+      "keperluan": "persyaratan pendaftaran beasiswa"
+    },
+    "lamaran": {
+      "nama": "Rani Kusuma Dewi",
+      "posisi": "Staf Keuangan",
+      "perusahaan": "PT Sinar Nusantara Abadi, Jl. Sudirman No. 1, Jakarta",
+      "pendidikan": "S1 Akuntansi, Universitas Bina Cendekia (2025)",
+      "lampiran": "daftar riwayat hidup, fotokopi ijazah, pasfoto 4×6"
+    },
+    "pengunduran-diri": {
+      "nama": "Dina Rahmawati",
+      "jabatan": "Staf Administrasi",
+      "tujuan": "Kepala Bagian SDM, PT Sinar Nusantara Abadi",
+      "tanggalEfektif": "30 September 2026",
+      "alasan": "melanjutkan pendidikan"
+    },
+    "cuti": {
+      "nama": "Dina Rahmawati",
+      "jabatan": "Staf Administrasi",
+      "tujuan": "Kepala Bagian SDM, PT Sinar Nusantara Abadi",
+      "jenisCuti": "tahunan",
+      "tanggal": "21–25 September 2026"
+    },
+    "permohonan": {
+      "nama": "Yanto Prasetyo",
+      "instansi": "Bagian Pelayanan, Kantor Kelurahan Mekar Jaya",
+      "hal": "Surat Keterangan Domisili",
+      "alasan": "untuk persyaratan pembukaan rekening bank",
+      "lampiran": "fotokopi KTP, fotokopi Kartu Keluarga"
+    }
+  }
+}
