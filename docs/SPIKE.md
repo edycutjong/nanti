@@ -17,7 +17,7 @@
 | #   | Precondition                                                                                                      | Evidence                                    |
 | --- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
 | P1  | RevenueCat project "Nanti" with a Test Store app; **Ads** page and **Rewards** sub-page visible (beta access)     | `docs/spike/01-ads-page.png`                |
-| P2  | AdMob account approved; app "Nanti" (Android, `app.nanti.surat`); rewarded unit `settle_rewarded`                 | unit id → `EXPO_PUBLIC_ADMOB_REWARDED_UNIT` |
+| P2  | AdMob account approved; app "Nanti" (Android, `dev.edycu.nanti`); rewarded unit `settle_rewarded`                 | unit id → `EXPO_PUBLIC_ADMOB_REWARDED_UNIT` |
 | P3  | Unit: server-side verification ON, callback `https://api.revenuecat.com/v1/incoming-webhooks/admob-ssv-rewarded`  | `02-ssv.png`                                |
 | P4  | AdMob impression-level ad revenue ON                                                                              | `03-ilrd.png`                               |
 | P5  | AdMob OAuth-connected to RevenueCat; `settle_rewarded` synced                                                     | `04-admob-sync.png`                         |
@@ -34,7 +34,7 @@ set -a; . ~/.config/nanti/secrets.env; set +a
 npx expo prebuild --platform android && npx expo run:android --device
 # make one letter → share → tap the pill → "Tonton 1 iklan" ×3
 # Settings → Bukti RevenueCat shows the last 5 settles with their Δ timings
-adb shell "run-as app.nanti.surat cat databases/nanti.db" > /tmp/nanti.db
+adb shell "run-as dev.edycu.nanti cat databases/nanti.db" > /tmp/nanti.db
 sqlite3 -json /tmp/nanti.db "select * from settle_log order by t_earned" > /tmp/settle.json
 npm run settle-log -- /tmp/settle.json     # → docs/SETTLE-LOG.md
 ```

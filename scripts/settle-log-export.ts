@@ -3,7 +3,7 @@
  * (t_verified − t_earned) and (t_balance − t_earned) over VERIFIED rows.
  *
  * Get the dump off the device (dev build):
- *   adb shell "run-as app.nanti.surat cat databases/nanti.db" > /tmp/nanti.db
+ *   adb shell "run-as dev.edycu.nanti cat databases/nanti.db" > /tmp/nanti.db
  *   sqlite3 -json /tmp/nanti.db "select * from settle_log order by t_earned" > /tmp/settle.json
  *   npm run settle-log -- /tmp/settle.json
  *

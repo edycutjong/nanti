@@ -21,7 +21,7 @@ const config: ExpoConfig = {
   icon: './assets/icon.png',
   splash: { image: './assets/splash.png', resizeMode: 'contain', backgroundColor: '#0F1419' },
   android: {
-    package: 'app.nanti.surat',
+    package: 'dev.edycu.nanti',
     versionCode: 1,
     adaptiveIcon: { foregroundImage: './assets/adaptive-icon.png', backgroundColor: '#0F1419' },
     permissions: ['VIBRATE', 'com.android.vending.BILLING'],
