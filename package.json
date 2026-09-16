@@ -25,7 +25,7 @@
     "ios": "expo run:ios",
     "test:coverage": "vitest run --coverage.enabled --coverage.provider=v8 --coverage.reporter=text --coverage.reporter=lcov --coverage.include='packages/**' --coverage.include='src/ledger/tab.ts' --coverage.include='src/ads/settleState.ts' --coverage.include='src/i18n/**'",
     "audit": "npm audit --audit-level=high",
-    "secrets": "gitleaks detect --source . --no-banner --redact",
+    "secrets": "gitleaks git --no-banner --redact .",
     "ci:full": "npm run ci && npm run bundle:check"
   },
   "dependencies": {
