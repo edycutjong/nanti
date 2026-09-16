@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nanti — for the judge</title>
+<style>
+  body{margin:0;background:#0F1419;color:#F3F4F6;font-family:Inter,system-ui,sans-serif;line-height:1.6}
+  main{max-width:820px;margin:0 auto;padding:40px 20px 80px}
+  h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:8px 0 16px}
+  h2{margin-top:36px}
+  a{color:#F2A93B}
+  code{background:#1A2027;padding:2px 6px;border-radius:6px;font-size:.92em}
+  pre{background:#1A2027;padding:14px;border-radius:10px;overflow:auto;font-size:14px}
+  table{border-collapse:collapse;width:100%;margin:12px 0}
+  td,th{border-top:1px solid rgba(255,255,255,.08);padding:8px 10px;vertical-align:top;text-align:left}
+  th{color:#94A3B8;font-weight:600;border-top:0}
+  .warn{border-left:3px solid #F2A93B;padding:8px 14px;color:#94A3B8;background:#1A2027;border-radius:0 10px 10px 0}
+  .pend{color:#F2A93B}
+  li{margin:6px 0}
+</style>
+</head>
+<body>
+<main>
+  <p><a href="index.html">← Nanti</a></p>
+  <h1>The letter now, the ad later: a correctly formatted Indonesian formal letter as a PDF in under a minute, then one rewarded ad on a visible tab that only RevenueCat's server can mark as paid.</h1>
+
+  <div class="warn"><strong>Conditional project.</strong> The settle round-trip (ad → AdMob server-side verification → RevenueCat → <code>ADS +1</code>) is fully built and in the bundle but has <strong>not yet run on a device</strong>. <code>docs/SPIKE.md</code> carries <code>RESULT: not yet run</code>. Everything below that depends on it is marked pending.</div>
+
+  <h2>The 30-second path (no setup, no keys)</h2>
+  <ol>
+    <li>Open the Google Play listing — <em>link lands here on publication (production submission 2026-09-23/24).</em></li>
+    <li><strong>Surat Izin Tidak Masuk Kerja</strong> → five fields (city and date already filled) → the paper preview updates as you type → <strong>Buat PDF</strong> → the share sheet opens with a real file name. <em>No ad has appeared.</em></li>
+    <li>Back on Home: the amber pill <code>Tab: 1 iklan · bayar nanti</code>.</li>
+    <li>Tap any tile → the Settle sheet. <strong>Tonton 1 iklan</strong> → ad → <em>memverifikasi…</em> → <code>ADS 0 → 1</code>, the pill turns green once and disappears. Or <strong>Nanti Pro</strong> → the RevenueCat paywall (7-day free trial — the judge unlock) → violet <strong>Pro</strong> chip.</li>
+    <li>Settings → <strong>Bukti RevenueCat</strong>: live <code>ADS</code> balance, <code>pro</code> entitlement, app user id, last 5 settles with Δ timings.</li>
+  </ol>
+  <p>Without a phone: <code>npm install --legacy-peer-deps &amp;&amp; npx tsx bin/surat.ts demo 1 &gt; letter.html</code> renders the exact HTML the PDF is printed from.</p>
+
+  <h2>Receipts</h2>
+  <table>
+    <tr><th></th><th>Value</th><th>Verify</th></tr>
+    <tr><td>Tests</td><td><strong>66</strong>, &lt; 2 s, no device, no key</td><td><code>npm test</code></td></tr>
+    <tr><td>Exhaustive verification</td><td><strong>70,602</strong> ledger transitions — debt ∈ {0,1}, never lowered by a client event; <strong>299,592</strong> settle-machine paths — <code>settled</code> only via <code>verified</code>; 0 violations</td><td><code>tests/exhaustive.test.ts</code></td></tr>
+    <tr><td>Self-ablation</td><td><strong>0</strong> client-side settle increments in <code>src/</code></td><td><code>npm run ablation</code></td></tr>
+    <tr><td>Templates</td><td>8, byte-identical to golden files; p95 ≤ 4 µs per render</td><td><code>npm run bench</code></td></tr>
+    <tr><td>Coverage (pure modules)</td><td>96.4 % lines</td><td><code>npm run test:coverage</code></td></tr>
+    <tr><td>RevenueCat methods</td><td>15 across four files</td><td><code>ARCHITECTURE.md</code></td></tr>
+    <tr><td>Native build</td><td>debug APK <code>app.nanti.surat</code> — RevenueCat, Google Mobile Ads, SQLite, Print in the dex</td><td>CI Stage 4</td></tr>
+    <tr><td><strong>G1 spike</strong> (3/3 verified settles, <code>ADS +1 &lt; 60 s</code>)</td><td class="pend">pending</td><td><code>docs/SPIKE.md</code></td></tr>
+    <tr><td><strong>Settle-to-balance latency, N ≥ 20</strong></td><td class="pend">pending</td><td><code>docs/SETTLE-LOG.md</code></td></tr>
+  </table>
+
+  <h2>Reproduce (the real path)</h2>
+<pre>git clone https://github.com/edycutjong/nanti &amp;&amp; cd nanti
+npm install --legacy-peer-deps
+npm test &amp;&amp; npm run bench &amp;&amp; npm run verify:offline &amp;&amp; npm run ablation
+cp .env.example .env      # RevenueCat Test Store key · the real settle_rewarded unit · AdMob app id
+npx expo prebuild --platform android &amp;&amp; npx expo run:android</pre>
+  <p>No offline / mock / demo flag exists. With Google's sample ad unit (the fallback when the real unit is unset) the ad plays but verification <strong>correctly fails</strong> and the tab stays — the app never pretends a grant happened.</p>
+
+  <h2>Honest limitations</h2>
+  <ul>
+    <li><strong>The judged round-trip is unverified on a device.</strong> It follows RevenueCat's own React Native sample and the published typings; whether AdMob's SSV callback completes inside 60 s depends on an approved AdMob account, RevenueCat Ads beta access and a registered test device.</li>
+    <li>RevenueCat Ads on React Native is <strong>beta</strong>; versions are pinned.</li>
+    <li>A brand-new AdMob app has limited fill before its Play listing is approved — an early install may only ever see the <em>Lanjut dulu</em> grace path.</li>
+    <li>The native build needs <code>-Xskip-metadata-version-check</code> (Kotlin 2.1 toolchain vs. Kotlin-2.3-built <code>play-services-ads 25.4.0</code>); documented in <code>plugins/withKotlinMetadataCheck.js</code>.</li>
+  </ul>
+
+  <h2>Links</h2>
+  <p><a href="https://github.com/edycutjong/nanti">Repository</a> · Play listing (on publication) · Demo video (2026-09-22/23) · <a href="index.html">Landing</a> · <a href="privacy.html">Privacy</a> · <a href="https://github.com/edycutjong/nanti/blob/main/DEMO.md">DEMO.md</a> · <a href="https://github.com/edycutjong/nanti/blob/main/docs/SPIKE.md">docs/SPIKE.md</a></p>
+  <p style="color:#94A3B8;font-size:13px;margin-top:40px">Mirror of <code>JUDGE.md</code> in the repository · 2026-09-16.</p>
+</main>
+</body>
+</html>

@@ -8,9 +8,9 @@
 
 <img src="docs/assets/readme-hero-animated.svg" width="100%" alt="Nanti — the letter is delivered first; one ad goes on a visible tab, settled later by RevenueCat." />
 
-[The flow](#-the-one-flow) · [Why the tab cannot lie](#-why-the-tab-cannot-lie) · [RevenueCat integration](#-revenuecat-is-the-engine) · [Run it](#-run-it-without-credentials)
+[For the judge → JUDGE.md](JUDGE.md) · [The flow](#-the-one-flow) · [Why the tab cannot lie](#-why-the-tab-cannot-lie) · [RevenueCat integration](#-revenuecat-is-the-engine) · [Run it](#-run-it-without-credentials)
 
-![Expo](https://img.shields.io/badge/Expo_54-000?logo=expo&logoColor=fff) ![React Native](https://img.shields.io/badge/React_Native_0.81-20232a?logo=react) ![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?logo=typescript&logoColor=fff) ![RevenueCat](https://img.shields.io/badge/RevenueCat_10.9_+_Ads-f25a5a) ![AdMob](https://img.shields.io/badge/AdMob_SSV-4285F4?logo=google&logoColor=fff) ![tests](https://img.shields.io/badge/tests-55_passing-2ea44f)
+![Expo](https://img.shields.io/badge/Expo_54-000?logo=expo&logoColor=fff) ![React Native](https://img.shields.io/badge/React_Native_0.81-20232a?logo=react) ![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?logo=typescript&logoColor=fff) ![RevenueCat](https://img.shields.io/badge/RevenueCat_10.9_+_Ads-f25a5a) ![AdMob](https://img.shields.io/badge/AdMob_SSV-4285F4?logo=google&logoColor=fff) ![tests](https://img.shields.io/badge/tests-66_passing-2ea44f) [![CI](https://github.com/edycutjong/nanti/actions/workflows/ci.yml/badge.svg)](https://github.com/edycutjong/nanti/actions/workflows/ci.yml)
 
 </div>
 
@@ -49,7 +49,8 @@ $ npx tsx bin/surat.ts demo 1      # the first demo letter, as the exact HTML th
 
 - `npm run ablation` greps `src/` for any client-side settle increment and must print **0**.
 - The settle state machine (`src/ads/settleState.ts`) cannot reach `settled` without a `verified` event; the tests walk every event sequence up to length 4 to prove it.
-- The ledger's four invariants hold under a 5,000-step random walk (`tests/ledger.test.ts`) and 20,000 steps in `npm run verify:offline`.
+- The ledger's four invariants hold under a 5,000-step random walk (`tests/ledger.test.ts`), 20,000 steps in `npm run verify:offline`, and **exhaustively over 70,602 (exported, forgiven, ADS, event) transitions** — a client event never lowers the debt (`tests/exhaustive.test.ts`).
+- **299,592 settle-machine paths** to depth 6: `settled` is reached on 504 of them, every one through `verified`.
 
 Full table and invariants: [docs/LEDGER.md](docs/LEDGER.md).
 
@@ -74,7 +75,7 @@ Dashboard objects: entitlement `pro` · products `nanti_pro_monthly` (7-day free
 
 ```bash
 npm install --legacy-peer-deps
-npm test                    # 55 tests: 8 golden templates, ledger invariants, settle state machine, i18n parity, formatting
+npm test                    # 66 tests: 8 golden templates, ledger invariants, settle state machine, i18n parity, formatting
 npm run bench               # each template rendered 1,000× — p50/p95 per template + ledger throughput; fails on golden drift
 npm run verify:offline      # the offline-capable parts, no network
 npm run ablation            # 0 client-side settle increments in src/
@@ -91,6 +92,30 @@ npx expo run:android         # physical device; RevenueCat + AdMob need a dev bu
 
 Without the real ad unit, Google's sample unit serves test creatives but **server-side verification cannot be enabled on it**, so every settle correctly comes back `failed` and the tab stays — the app never pretends otherwise. The first-run protocol and pass criteria are in [docs/SPIKE.md](docs/SPIKE.md).
 
+## 🛠️ Engineering harness
+
+**Pipeline:** Quality → Security → Metro bundle → Android native build → Bench + offline verification → Deploy gate (`.github/workflows/ci.yml`)
+
+```bash
+npm run ci             # prettier · eslint · tsc · vitest + coverage · bench · verify:offline · ablation · readiness
+npm run bundle:check   # expo export + assert the reward/ad/paywall calls and the templates are in the Hermes bundle
+npm run test:coverage  # 96.4 % lines over packages/surat, the ledger, the settle machine, i18n
+npm run secrets        # gitleaks over the tree (CI runs it over full history)
+```
+
+| Layer                                       | Tool                                                                                                    | Status                                                                 |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Code quality                                | Prettier · ESLint 9 (flat) · tsc                                                                        | ✅                                                                     |
+| Unit tests                                  | vitest — 66 tests, 8 golden templates, 96.4 % lines on the pure modules                                 | ✅                                                                     |
+| High-signal tests                           | 70,602-transition + 299,592-path exhaustive · 5 defect-named regressions · "client cannot pay" boundary | ✅                                                                     |
+| Build verification                          | Metro export + bundle assertions; Android `assembleDebug` + manifest inspection (main)                  | ✅                                                                     |
+| Security (SAST / SCA)                       | CodeQL · Dependabot (grouped, no majors, beta SDKs pinned) · npm audit                                  | ✅                                                                     |
+| Secret scanning                             | gitleaks (full history) · TruffleHog (verified)                                                         | ✅                                                                     |
+| Performance                                 | template bench (p95 budget 5 ms, golden drift fails) · ledger 28 ns/transition                          | ✅                                                                     |
+| Release                                     | semantic version from Angular commits (`release.yml`)                                                   | ✅                                                                     |
+| Community                                   | CoC · Contributing · Security policy · issue & PR templates · MIT                                       | ✅                                                                     |
+| **G1 spike · settle log · device purchase** | —                                                                                                       | ⏳ pending — the project is conditional on the spike (`docs/SPIKE.md`) |
+
 ## 📦 Repository
 
 ```
@@ -103,7 +128,7 @@ src/pdf/            export.ts (expo-print → real file name → share sheet)
 src/i18n/           id · en (chrome only — letters are always Indonesian)
 src/screens/        Home · Form (live preview) · SettleSheet · Settings (RevenueCat receipt)
 scripts/            bench · verify_offline · ablation · settle-log-export · check_submission_readiness · bundle-check
-tests/              55 tests + golden/ (8 HTML files)
+tests/              66 tests + golden/ (8 HTML files) — incl. 70,602 ledger + 299,592 settle-path exhaustive verification
 docs/               LEDGER.md · SPIKE.md · DX-REPORT.md · assets/
 site/               landing + privacy policy (GitHub Pages)
 ```
