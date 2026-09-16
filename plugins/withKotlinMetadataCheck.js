@@ -34,11 +34,20 @@ allprojects {
 }
 `;
 
-module.exports = function withKotlinMetadataCheck(config) {
+/** Pure: append the block once. Exported so tests/regressions.test.ts can pin it without Expo. */
+function patch(contents) {
+  return contents.includes(MARKER) ? contents : contents + BLOCK;
+}
+
+function withKotlinMetadataCheck(config) {
   return withProjectBuildGradle(config, (cfg) => {
     if (cfg.modResults.language !== 'groovy')
       throw new Error('withKotlinMetadataCheck: expected a Groovy build.gradle');
-    if (!cfg.modResults.contents.includes(MARKER)) cfg.modResults.contents += BLOCK;
+    cfg.modResults.contents = patch(cfg.modResults.contents);
     return cfg;
   });
-};
+}
+
+module.exports = withKotlinMetadataCheck;
+module.exports.patch = patch;
+module.exports.MARKER = MARKER;

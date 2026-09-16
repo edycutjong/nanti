@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "main": "index.js",
-  "description": "The letter now. The ad later. Formal Indonesian letters as a PDF in under a minute; one rewarded ad owed afterwards, settled by RevenueCat — or cleared for good with Pro.",
+  "description": "The letter now. The ad later. Formal Indonesian letters as a PDF in under a minute; one rewarded ad owed afterwards, settled by RevenueCat \u2014 or cleared for good with Pro.",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
@@ -21,8 +21,12 @@
     "readiness": "node scripts/check_submission_readiness.js",
     "ablation": "node scripts/ablation.js",
     "bundle:check": "expo export --platform android --output-dir dist --clear >/dev/null && node scripts/bundle-check.js",
-    "ci": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run bench && npm run ablation",
-    "ios": "expo run:ios"
+    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test:coverage && npm run bench && npm run verify:offline && npm run ablation && npm run readiness",
+    "ios": "expo run:ios",
+    "test:coverage": "vitest run --coverage.enabled --coverage.provider=v8 --coverage.reporter=text --coverage.reporter=lcov --coverage.include='packages/**' --coverage.include='src/ledger/tab.ts' --coverage.include='src/ads/settleState.ts' --coverage.include='src/i18n/**'",
+    "audit": "npm audit --audit-level=high",
+    "secrets": "gitleaks detect --source . --no-banner --redact",
+    "ci:full": "npm run ci && npm run bundle:check"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.4.1",
@@ -52,6 +56,7 @@
     "@eslint/js": "^9.39.5",
     "@types/node": "^22.15.0",
     "@types/react": "~19.1.10",
+    "@vitest/coverage-v8": "^4.1.11",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^9.1.2",
     "eslint-plugin-react": "^7.37.5",
