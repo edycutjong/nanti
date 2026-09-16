@@ -31,8 +31,12 @@ type Screen = { name: 'home' } | { name: 'form'; template: Template } | { name: 
 function Root() {
   const [screen, setScreen] = useState<Screen>({ name: 'home' });
   const [settle, setSettle] = useState(false);
-  const [pendingGrace, setPendingGrace] = useState<Template | null>(null);
-  const app = useApp();
+  // Armed ONLY by the settle sheet's no_fill state ("Lanjut dulu"). While armed, the next
+  // tile tap opens the form instead of the sheet, and that export runs the grace row of the
+  // ledger table (forgiven += 1, debt stays 1). Disarmed on export or on any Home navigation
+  // back through the sheet. This is invariant I4: forgiven moves only after a real ad failure.
+  const [graceArmed, setGraceArmed] = useState(false);
+  useApp();
 
   // UMP consent before the first ad request (EEA/UK policy), then the SDK init. Never blocks the letter.
   useEffect(() => {
@@ -52,8 +56,10 @@ function Root() {
       return (
         <FormScreen
           template={screen.template}
+          graceArmed={graceArmed}
           onBack={() => setScreen({ name: 'home' })}
           onExported={(blocked) => {
+            setGraceArmed(false);
             setScreen({ name: 'home' });
             if (blocked) setSettle(true);
           }}
@@ -66,23 +72,20 @@ function Root() {
       return (
         <>
           <HomeScreen
+            graceArmed={graceArmed}
             onPick={(t) => setScreen({ name: 'form', template: t })}
             onSettle={() => setSettle(true)}
             onSettings={() => setScreen({ name: 'settings' })}
           />
           <SettleSheet
             visible={settle}
-            onClose={() => {
-              setSettle(false);
-              setPendingGrace(null);
-            }}
+            onClose={() => setSettle(false)}
             onContinue={() => {
-              // No ad could be served: the letter is delivered anyway, the tab stays at 1 (never 2).
+              // No ad could be served: let the next letter through anyway. The ledger records
+              // it as forgiven when it is actually delivered (Form → recordExport(false)); the
+              // tab stays at 1, never 2.
+              setGraceArmed(true);
               setSettle(false);
-              const next = pendingGrace ?? null;
-              setPendingGrace(null);
-              if (next) setScreen({ name: 'form', template: next });
-              else app.recordExport(false);
             }}
           />
         </>

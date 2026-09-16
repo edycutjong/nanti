@@ -15,7 +15,7 @@ npx tsx bin/surat.ts demo 1 > /tmp/letter1.html && open /tmp/letter1.html
 Expected (2026-09-16, Node 22, Apple M-series):
 
 ```
-Tests  55 passed (55)
+Tests  67 passed (67)
 nanti bench — 8 templates × 1000 renders
   izin-kerja  2109 bytes  p50 2 µs  p95 2 µs   …   PASS (golden 8/8)
   ledger: 200,000 transitions, 28 ns each
@@ -35,7 +35,7 @@ ablation: 0 client-side settle increments in src/ (must be 0)
 
 | Receipt                                                                                                                    | Status                                                                                                                  |
 | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| 55 tests · bench · verify:offline · ablation                                                                               | ✅ section 1                                                                                                            |
+| 67 tests · bench · verify:offline · ablation                                                                               | ✅ section 1                                                                                                            |
 | Metro bundle carries every reward/ad/paywall call + the templates                                                          | ✅ `npm run bundle:check` (3.5 MB Hermes bytecode, 2026-09-16)                                                          |
 | Native debug APK `app.nanti.surat` assembles with RevenueCat, Google Mobile Ads (RewardedAd), SQLite and Print in the dex  | ✅ `expo prebuild` + `gradlew assembleDebug`, 2026-09-16 — four attempts; see `plugins/withKotlinMetadataCheck.js`      |
 | **G1 spike** — 3/3 verified settles with `ADS +1 < 60 s`, RC sandbox rows, Customer History `VIRTUAL_CURRENCY_TRANSACTION` | **pending — `docs/SPIKE.md`, first attempt 2026-09-16/17, outer bound 2026-09-18.** The project is CONDITIONAL on this. |

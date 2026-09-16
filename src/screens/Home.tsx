@@ -8,10 +8,12 @@ import { useApp } from '../state/AppContext';
 import { color, space } from '../theme/tokens';
 
 export function HomeScreen({
+  graceArmed,
   onPick,
   onSettle,
   onSettings,
 }: {
+  graceArmed: boolean;
   onPick: (t: Template) => void;
   onSettle: () => void;
   onSettings: () => void;
@@ -42,7 +44,7 @@ export function HomeScreen({
         {TEMPLATES.map((tpl) => (
           <Press
             key={tpl.id}
-            onPress={() => (debt === 1 && !isPro ? onSettle() : onPick(tpl))}
+            onPress={() => (debt === 1 && !isPro && !graceArmed ? onSettle() : onPick(tpl))}
             style={s.tile}
             accessibilityRole="button"
             accessibilityLabel={locale === 'id' ? tpl.title : tpl.subtitle}

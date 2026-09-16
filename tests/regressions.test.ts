@@ -54,4 +54,28 @@ describe('regressions', () => {
     expect(s).toContain('<td>NIK</td><td>:</td><td>3171234567890001</td>');
     expect(s).not.toContain('— NIK');
   });
+
+  it('lanjut_dulu_recorded_a_forgiven_export_without_delivering_the_letter (2026-09-16 audit)', () => {
+    // The no-fill "Continue for now" button called recordExport(false) from App.tsx with a
+    // pendingGrace that nothing ever set — forgiven += 1, no letter. Now it ARMS grace; Home lets
+    // the next tile through; Form runs recordExport(!graceArmed) when the PDF is actually made.
+    const app = src('App.tsx');
+    expect(app).not.toMatch(/pendingGrace|app\.recordExport\(false\)/);
+    expect(app).toMatch(/setGraceArmed\(true\)/);
+    const home = src('src/screens/Home.tsx');
+    expect(home).toMatch(/debt === 1 && !isPro && !graceArmed \? onSettle\(\) : onPick\(tpl\)/);
+    const form = src('src/screens/Form.tsx');
+    expect(form).toMatch(/recordExport\(!graceArmed\)/);
+    // recordExport is called from exactly one place in the app: the moment the letter is exported.
+    const all = [
+      app,
+      home,
+      form,
+      src('src/screens/SettleSheet.tsx'),
+      src('src/screens/Settings.tsx'),
+    ]
+      .join('\n')
+      .replace(/\/\/.*$/gm, '');
+    expect((all.match(/recordExport\(/g) ?? []).length).toBe(1);
+  });
 });

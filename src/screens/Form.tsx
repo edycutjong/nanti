@@ -24,7 +24,6 @@ import {
   type Values,
 } from '../../packages/surat';
 import { exportAndShare } from '../pdf/export';
-import { rewardedUnitId } from '../ads/settle';
 import { useApp } from '../state/AppContext';
 import { color, font, radius, space } from '../theme/tokens';
 
@@ -34,10 +33,12 @@ function iso(d: Date) {
 
 export function FormScreen({
   template,
+  graceArmed,
   onBack,
   onExported,
 }: {
   template: Template;
+  graceArmed: boolean;
   onBack: () => void;
   onExported: (blocked: boolean) => void;
 }) {
@@ -71,10 +72,10 @@ export function FormScreen({
     setBusy(true);
     setErr(null);
     try {
-      // The tab rule decides first — but a BLOCKED export never happens here:
-      // Home already routes a debt-1 tap to the Settle sheet, so this call is
-      // either 'open-tab', 'grace' or 'pro-export'. adAvailable = we have a unit id.
-      const transition = recordExport(!rewardedUnitId().isSample);
+      // The ledger table decides first. Home routes a debt-1 tap to the Settle sheet, so this
+      // call is 'open-tab' or 'pro-export' — or 'grace' when the sheet's no_fill state armed
+      // "Lanjut dulu": adAvailable=false, forgiven += 1, the letter is still delivered.
+      const transition = recordExport(!graceArmed);
       if (transition.blocked) {
         onExported(true);
         return;
