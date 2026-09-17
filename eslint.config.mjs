@@ -41,7 +41,7 @@ export default tseslint.config(
   },
   {
     files: [
-      'scripts/**/*.ts',
+      'scripts/**/*.{ts,mjs}',
       'bin/**/*.ts',
       'tests/**/*.ts',
       'packages/**/*.ts',

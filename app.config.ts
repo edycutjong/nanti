@@ -25,7 +25,11 @@ const config: ExpoConfig = {
     versionCode: 1,
     adaptiveIcon: { foregroundImage: './assets/adaptive-icon.png', backgroundColor: '#0F1419' },
     permissions: ['VIBRATE', 'com.android.vending.BILLING'],
-    blockedPermissions: ['android.permission.SYSTEM_ALERT_WINDOW'],
+    blockedPermissions: [
+      'android.permission.SYSTEM_ALERT_WINDOW',
+      'android.permission.READ_EXTERNAL_STORAGE',
+      'android.permission.WRITE_EXTERNAL_STORAGE',
+    ],
   },
   plugins: [
     [
