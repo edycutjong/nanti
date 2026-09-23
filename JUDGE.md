@@ -49,4 +49,4 @@ No offline / mock / demo flag exists. With Google's sample ad unit (the fallback
 
 ## Links
 
-Repo · Play listing (on publication) · Demo video (2026-09-22/23) · [Landing + privacy](https://edycutjong.github.io/nanti/) · [DEMO.md](DEMO.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [docs/LEDGER.md](docs/LEDGER.md) · [docs/SPIKE.md](docs/SPIKE.md)
+Repo · Play listing (on publication) · Demo video (2026-09-22/23) · [Landing + privacy](https://nanti.edycu.dev/) · [DEMO.md](DEMO.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [docs/LEDGER.md](docs/LEDGER.md) · [docs/SPIKE.md](docs/SPIKE.md)
