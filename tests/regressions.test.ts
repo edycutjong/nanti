@@ -78,4 +78,14 @@ describe('regressions', () => {
       .replace(/\/\/.*$/gm, '');
     expect((all.match(/recordExport\(/g) ?? []).length).toBe(1);
   });
+
+  it('ci_setup_android_requested_the_removed_sdk_tools_package (2026-09-23, first public CI run)', () => {
+    // setup-android@v3 defaults to `tools platform-tools`; `tools` is gone from the
+    // SDK repository, so Stage 4 died in sdkmanager before Gradle ever ran.
+    const ci = src('.github/workflows/ci.yml');
+    const step = ci.slice(ci.indexOf('android-actions/setup-android'));
+    const pkgs = /packages:\s*([^\n]+)/.exec(step.slice(0, 200));
+    expect(pkgs, 'setup-android must pin its packages input').not.toBeNull();
+    expect(pkgs![1].split(/\s+/)).not.toContain('tools');
+  });
 });
