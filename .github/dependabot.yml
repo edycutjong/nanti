@@ -19,6 +19,13 @@ updates:
       - dependency-name: 'react-native-purchases'
       - dependency-name: 'react-native-purchases-ui'
       - dependency-name: 'react-native-google-mobile-ads'
+      # Native modules whose versions are set by the Expo SDK (`expo install --fix`),
+      # not by semver. A bump outside that set fails expo-doctor and the native build.
+      - dependency-name: 'expo'
+      - dependency-name: 'expo-*'
+      - dependency-name: 'react-native-safe-area-context'
+      - dependency-name: 'react-native-webview'
+      - dependency-name: '@types/react'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
