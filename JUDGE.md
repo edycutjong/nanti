@@ -6,7 +6,7 @@
 
 ## The 30-second path (no setup, no keys)
 
-1. Open the Google Play listing — _link lands here on publication (production submission 2026-09-23/24)._
+1. Install the app — _there is no Play listing yet (not submitted as of 2026-09-23); its link lands here when it is published. Until then the path below runs on a dev build — `DEMO.md` §2._
 2. **Surat Izin Tidak Masuk Kerja** → five fields (city and date are already filled) → the paper preview updates as you type → **Buat PDF** → the share sheet opens with a real file name. _No ad has appeared._
 3. Back on Home: the amber pill **`Tab: 1 iklan · bayar nanti`**.
 4. Tap any tile → the Settle sheet. **Tonton 1 iklan** → ad → _memverifikasi…_ → `ADS 0 → 1`, the pill turns green once and disappears. Or **Nanti Pro** → the RevenueCat paywall (7-day free trial — the judge unlock) → violet **Pro** chip, no tab ever again.
@@ -18,7 +18,7 @@ Without a phone: `npm install --legacy-peer-deps && npx tsx bin/surat.ts demo 1 
 
 |                                                      | Value                                                                                                                                                                 | How to verify                                 |
 | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| Tests                                                | **72**, < 2 s, no device, no key                                                                                                                                      | `npm test`                                    |
+| Tests                                                | **73**, < 2 s, no device, no key                                                                                                                                      | `npm test`                                    |
 | Exhaustive verification                              | **70,602** ledger transitions — debt ∈ {0,1}, never lowered by a client event; **299,592** settle-machine paths — `settled` reached only via `verified`; 0 violations | `tests/exhaustive.test.ts`                    |
 | Self-ablation                                        | **0** client-side settle increments in `src/`                                                                                                                         | `npm run ablation` · `tests/boundary.test.ts` |
 | Templates                                            | 8, byte-identical to golden files; p95 ≤ 4 µs per render                                                                                                              | `npm test` · `npm run bench`                  |
@@ -49,4 +49,4 @@ No offline / mock / demo flag exists. With Google's sample ad unit (the fallback
 
 ## Links
 
-Repo · Play listing (on publication) · Demo video (2026-09-22/23) · [Landing + privacy](https://nanti.edycu.dev/) · [DEMO.md](DEMO.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [docs/LEDGER.md](docs/LEDGER.md) · [docs/SPIKE.md](docs/SPIKE.md)
+Repo · Play listing (not published yet) · Demo video (not recorded yet) · [Landing + privacy](https://edycutjong.github.io/nanti/) · [DEMO.md](DEMO.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [docs/LEDGER.md](docs/LEDGER.md) · [docs/SPIKE.md](docs/SPIKE.md)

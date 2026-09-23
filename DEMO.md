@@ -1,7 +1,7 @@
 # DEMO.md — judge path and receipts
 
-Everything below is either reproducible from a fresh clone right now, or explicitly marked **pending** with the
-date it is due. There is no demo flag, no mock mode, no client-side ad counter anywhere.
+Everything below is either reproducible from a fresh clone right now, or explicitly marked **pending** / **not
+yet run** — no row claims a device result that has not happened. There is no demo flag, no mock mode, no client-side ad counter anywhere.
 
 ## 1. Reproduce from a fresh clone (no credentials)
 
@@ -12,10 +12,10 @@ npm test && npm run bench && npm run verify:offline && npm run ablation
 npx tsx bin/surat.ts demo 1 > /tmp/letter1.html && open /tmp/letter1.html
 ```
 
-Expected (2026-09-16, Node 22, Apple M-series):
+Expected (2026-09-23, Node 22, Apple M-series):
 
 ```
-Tests  72 passed (72)
+Tests  73 passed (73)
 nanti bench — 8 templates × 1000 renders
   izin-kerja  2109 bytes  p50 2 µs  p95 2 µs   …   PASS (golden 8/8)
   ledger: 200,000 transitions, 28 ns each
@@ -33,18 +33,18 @@ ablation: 0 client-side settle increments in src/ (must be 0)
 
 ## 3. Receipts
 
-| Receipt                                                                                                                    | Status                                                                                                                                               |
-| -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 72 tests · bench · verify:offline · ablation                                                                               | ✅ section 1                                                                                                                                         |
-| Signed release AAB (`bundleRelease`, upload key in `~/.config/nanti/`, signer = keystore, not debug)                       | ✅ 72 MB, 2026-09-16 — built with empty RC/AdMob ids: proves the store-signable pipeline; the shippable one is rebuilt once the dashboard keys exist |
-| Metro bundle carries every reward/ad/paywall call + the templates                                                          | ✅ `npm run bundle:check` (3.5 MB Hermes bytecode, 2026-09-16)                                                                                       |
-| Native debug APK `dev.edycu.nanti` assembles with RevenueCat, Google Mobile Ads (RewardedAd), SQLite and Print in the dex  | ✅ `expo prebuild` + `gradlew assembleDebug`, 2026-09-16 — four attempts; see `plugins/withKotlinMetadataCheck.js`                                   |
-| **G1 spike** — 3/3 verified settles with `ADS +1 < 60 s`, RC sandbox rows, Customer History `VIRTUAL_CURRENCY_TRANSACTION` | **pending — `docs/SPIKE.md`, first attempt 2026-09-16/17, outer bound 2026-09-18.** The project is CONDITIONAL on this.                              |
-| `docs/SETTLE-LOG.md` — N ≥ 20 real settles, p50/p95 as measured                                                            | **pending — build day 5, 2026-09-22** (`npm run settle-log`)                                                                                         |
-| Test Store Pro purchase → `entitlements.active.pro`                                                                        | **pending — day 1**                                                                                                                                  |
-| Play Billing sandbox purchase (license tester)                                                                             | **pending — day 4, 2026-09-21**                                                                                                                      |
-| Play production submission                                                                                                 | **pending — 2026-09-23 (latest 09-24)**                                                                                                              |
-| Demo video (< 2 min, real device, share sheet cropped, ad creative blurred)                                                | **pending — 2026-09-22/23**                                                                                                                          |
+| Receipt                                                                                                                    | Status                                                                                                                                                                                                             |
+| -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 73 tests · bench · verify:offline · ablation                                                                               | ✅ section 1                                                                                                                                                                                                       |
+| Signed release AAB (`bundleRelease`, upload key in `~/.config/nanti/`, signer = keystore, not debug)                       | ✅ 72 MB, rebuilt 2026-09-17 — Play key (`goog_`) and the real `settle_rewarded` unit inlined, upload-key signed, `EXTERNAL_STORAGE` blocked; `npm run verify:artifact` PASS. The AAB itself stays out of the repo |
+| Metro bundle carries every reward/ad/paywall call + the templates                                                          | ✅ `npm run bundle:check` (3.5 MB Hermes bytecode, 2026-09-16)                                                                                                                                                     |
+| Native debug APK `dev.edycu.nanti` assembles with RevenueCat, Google Mobile Ads (RewardedAd), SQLite and Print in the dex  | ✅ `expo prebuild` + `gradlew assembleDebug`, 2026-09-16 — four attempts; see `plugins/withKotlinMetadataCheck.js`                                                                                                 |
+| **G1 spike** — 3/3 verified settles with `ADS +1 < 60 s`, RC sandbox rows, Customer History `VIRTUAL_CURRENCY_TRANSACTION` | **not yet run** — `docs/SPIKE.md` still reads `RESULT: not yet run`; the original target (2026-09-16/18) has passed. The project stays CONDITIONAL on this.                                                        |
+| `docs/SETTLE-LOG.md` — N ≥ 20 real settles, p50/p95 as measured                                                            | **pending — needs G1 first** (`npm run settle-log`); no rows exist                                                                                                                                                 |
+| Test Store Pro purchase → `entitlements.active.pro`                                                                        | **pending — not yet run on a device**                                                                                                                                                                              |
+| Play Billing sandbox purchase (license tester)                                                                             | **pending — not yet run**                                                                                                                                                                                          |
+| Play production submission                                                                                                 | **pending — not yet submitted** (as of 2026-09-23)                                                                                                                                                                 |
+| Demo video (< 2 min, real device, share sheet cropped, ad creative blurred)                                                | **not recorded** — no video exists yet; the link lands here and in `JUDGE.md` when it does                                                                                                                         |
 
 ## 4. The killer number
 
