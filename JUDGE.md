@@ -50,4 +50,4 @@ No offline / mock / demo flag exists. A dev build always requests Google's test 
 
 ## Links
 
-Repo · Play listing (not published yet) · Demo video (not recorded yet) · [Landing + privacy](https://edycutjong.github.io/nanti/) · [DEMO.md](DEMO.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [docs/LEDGER.md](docs/LEDGER.md) · [docs/SPIKE.md](docs/SPIKE.md)
+Repo · Play listing (not published yet) · Demo video (not recorded yet) · [Landing + privacy](https://nanti.edycu.dev/) · [DEMO.md](DEMO.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [docs/LEDGER.md](docs/LEDGER.md) · [docs/SPIKE.md](docs/SPIKE.md)

@@ -8,7 +8,7 @@
 
 <img src="docs/assets/readme-hero-animated.svg" width="100%" alt="Nanti — the letter is delivered first; one ad goes on a visible tab, settled later by RevenueCat." />
 
-[For the judge → JUDGE.md](JUDGE.md) · [live judge page](https://edycutjong.github.io/nanti/judge.html) · [The flow](#-the-one-flow) · [Why the tab cannot lie](#-why-the-tab-cannot-lie) · [RevenueCat integration](#-revenuecat-is-the-engine) · [Run it](#-run-it-without-credentials)
+[For the judge → JUDGE.md](JUDGE.md) · [live judge page](https://nanti.edycu.dev/judge.html) · [The flow](#-the-one-flow) · [Why the tab cannot lie](#-why-the-tab-cannot-lie) · [RevenueCat integration](#-revenuecat-is-the-engine) · [Run it](#-run-it-without-credentials)
 
 ![Expo](https://img.shields.io/badge/Expo_54-000?logo=expo&logoColor=fff) ![React Native](https://img.shields.io/badge/React_Native_0.81-20232a?logo=react) ![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?logo=typescript&logoColor=fff) ![RevenueCat](https://img.shields.io/badge/RevenueCat_10.9_+_Ads-f25a5a) ![AdMob](https://img.shields.io/badge/AdMob_SSV-4285F4?logo=google&logoColor=fff) ![tests](https://img.shields.io/badge/tests-81_passing-2ea44f) [![CI](https://github.com/edycutjong/nanti/actions/workflows/ci.yml/badge.svg)](https://github.com/edycutjong/nanti/actions/workflows/ci.yml) [![CodeQL](https://github.com/edycutjong/nanti/actions/workflows/codeql.yml/badge.svg)](https://github.com/edycutjong/nanti/actions/workflows/codeql.yml) [![gitleaks](https://github.com/edycutjong/nanti/actions/workflows/gitleaks.yml/badge.svg)](https://github.com/edycutjong/nanti/actions/workflows/gitleaks.yml) [![Release](https://img.shields.io/github/v/release/edycutjong/nanti)](https://github.com/edycutjong/nanti/releases)
 
