@@ -1,0 +1,260 @@
+<!doctype html>
+<!--
+  Nanti — pitch deck (single file, 1920×1080 stage scaled to the viewport).
+  Keys: → / Space / PageDown next · ← / PageUp previous · Home / End · Esc overview grid · P presenter notes.
+  URL hash #3 opens slide 3. Print: Cmd/Ctrl+P → Save as PDF → landscape → one slide per page.
+  Images: ../assets/03-letter-preview.webp, 04-ad-owed-tab.webp, 05-settle-sheet.webp (release APK, emulator, 2026-09-26), icon.svg.
+  Direction: kop surat letterhead office — same :root, faces and highlight as the landing.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nanti — pitch deck</title>
+<meta name="description" content="Nanti pitch deck: the letter leaves first, the ad waits its turn.">
+<meta property="og:title" content="Nanti — pitch deck">
+<meta property="og:description" content="The letter leaves first. The ad waits its turn. 10 slides, Shipaton 2026 · Catvertising Award.">
+<meta property="og:image" content="https://edycutjong.github.io/nanti/assets/og.png?v=2">
+<meta property="og:url" content="https://edycutjong.github.io/nanti/pitch/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Public+Sans:wght@400;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F1E4;--paper:#FFFDF7;--plate:#0F1419;--ink:#171B22;--muted:#5A5F66;
+  --before:#F2A93B;--after:#34D399;--before-ink:#8A4E00;--after-ink:#0B6E4A;--pro:#A78BFA;--rule:#C9BFA8;
+  --font-display:"Instrument Serif","Iowan Old Style",Georgia,serif;
+  --font-body:"Public Sans","Segoe UI",sans-serif;
+  --font-data:"Courier Prime","Courier New",monospace;
+  --font-letter:"Times New Roman","Noto Serif",serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#E9E2D1;overflow:hidden;color:var(--ink);font-family:var(--font-body)}
+::selection{background:var(--before);color:var(--ink)}
+:focus-visible{outline:3px solid var(--before-ink);outline-offset:3px}
+.stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0}
+.slide{position:absolute;inset:0;display:none;padding:96px 120px 110px;overflow:hidden;background:
+  radial-gradient(ellipse 50% 50% at 85% 15%,rgba(242,169,59,.10),transparent 70%),
+  repeating-linear-gradient(0deg,rgba(23,27,34,.018) 0 1px,transparent 1px 3px),var(--bg)}
+.slide.on{display:block;animation:in .5s var(--ease) both}
+@keyframes in{from{transform:translateY(14px)}}
+.kop{position:absolute;left:120px;right:120px;top:44px;display:flex;align-items:center;gap:16px;font:16px var(--font-data);color:var(--muted)}
+.kop img{width:40px;height:40px;border-radius:9px}.kop b{font:400 32px/1 var(--font-display);color:var(--ink)}.kop span:last-child{margin-left:auto}
+.kop::after{content:"";position:absolute;left:0;right:0;top:58px;height:4px;border-top:3px solid var(--ink);border-bottom:1px solid var(--ink);box-sizing:content-box}
+.foot{position:absolute;left:120px;right:120px;bottom:40px;display:flex;justify-content:space-between;font:16px var(--font-data);color:var(--muted)}
+.lbl{font:22px var(--font-data);color:var(--muted);margin:60px 0 14px}.lbl b{color:var(--before-ink)}
+h1{font:400 128px/.95 var(--font-display);letter-spacing:-.015em;margin:0}
+h2{font:400 96px/1 var(--font-display);letter-spacing:-.012em;margin:0 0 30px;max-width:1500px}
+h1 em,h2 em{color:var(--before-ink);background:linear-gradient(transparent 72%,rgba(242,169,59,.4) 72% 92%,transparent 92%)}
+p.big{font:32px/1.45 var(--font-body);max-width:1000px;margin:0;color:#2A2F36}
+.data{font-family:var(--font-data)}
+.pend{color:var(--before-ink);font-style:italic}
+/* the letter + tab + stamp (signature element) */
+.a4{position:absolute;background:var(--paper);font:21px/1.55 var(--font-letter);padding:52px 56px;box-shadow:0 30px 60px rgba(60,45,20,.18),0 2px 8px rgba(60,45,20,.12);transform:rotate(-1.5deg)}
+.a4 .r{text-align:right}.a4 i{display:block;height:12px;background:#E6E0D2;border-radius:3px;margin:16px 0}
+.a4 .sig{text-align:right;margin-top:30px}.a4 .sig u{display:block;margin-top:50px;font-weight:700}
+.tab{position:absolute;display:flex;align-items:center;gap:14px;background:var(--before);color:var(--ink);font:700 28px/1 var(--font-body);padding:22px 32px 22px 28px;border-radius:0 44px 44px 0;box-shadow:0 14px 28px rgba(138,78,0,.28);white-space:nowrap}
+.tab::before{content:"";border-left:17px solid var(--ink);border-top:11px solid transparent;border-bottom:11px solid transparent}
+.stamp{position:absolute;width:330px;padding:18px 16px;border:5px double var(--after-ink);color:var(--after-ink);text-align:center;transform:rotate(-8deg);font:700 20px/1.3 var(--font-data);background:rgba(255,253,247,.7)}
+.stamp big{display:block;font:400 64px/1 var(--font-display);letter-spacing:.14em}.stamp em{display:block;font:italic 18px/1.35 var(--font-body);color:var(--muted);margin-top:8px}
+.shot{border-radius:26px;box-shadow:0 22px 46px rgba(15,20,25,.25);display:block}
+.term{background:var(--plate);color:#E6E8EB;border-radius:14px;padding:26px 30px;font:22px/1.6 var(--font-data);box-shadow:0 22px 46px rgba(15,20,25,.28)}
+.term .c::before{content:"$ ";color:#F2A93B}.term .g{color:#34D399}.term .d{color:#94A3B8}
+.num{font:400 250px/1 var(--font-display);font-variant-numeric:tabular-nums}
+.cols{display:grid;gap:60px}
+.cell{border-top:3px double var(--ink);padding-top:20px}
+.cell span{display:block;font-size:26px;margin-top:10px}.cell code{font:18px var(--font-data);color:var(--muted)}
+.chip{display:inline-block;font:32px var(--font-data);border:1.5px solid var(--rule);background:var(--paper);border-radius:4px;padding:14px 20px;margin:0 12px 18px 0}
+blockquote{margin:0;border-top:4px double var(--ink);padding-top:26px}
+blockquote p{font:400 96px/1.04 var(--font-display);margin:0 0 16px}blockquote cite{font:18px var(--font-data);color:var(--muted);font-style:normal}
+.speaker-notes{display:none}
+.foot span:last-child{visibility:hidden}
+.slide{padding-top:120px}
+.lbl{margin-top:70px}
+/* chrome */
+.ui{position:fixed;right:18px;bottom:14px;display:flex;align-items:center;gap:8px;font:14px var(--font-data);color:var(--muted);z-index:5}
+.ui button{font:600 14px var(--font-body);background:var(--paper);color:var(--ink);border:1.5px solid var(--ink);border-radius:4px;padding:7px 12px;cursor:pointer;transition:background .15s,color .15s,transform .15s}
+.ui button:hover{background:var(--ink);color:var(--paper)}.ui button:active{transform:scale(.95)}
+.ui a{color:var(--ink);font:600 14px var(--font-body);text-underline-offset:3px;text-decoration-color:var(--before);margin-right:8px;transition:color .15s}.ui a:hover{color:var(--before-ink)}
+#notes{position:fixed;left:0;right:0;bottom:0;height:20vh;background:var(--plate);color:#F3F4F6;font:20px/1.5 var(--font-body);padding:18px 28px;display:none;z-index:4;overflow:auto}
+body.presenter #notes{display:block}body.presenter .ui{bottom:calc(20vh + 12px)}
+body.idle{cursor:none}
+/* overview */
+body.grid{overflow:auto}
+body.grid .stage{position:static;transform:none!important;width:auto;height:auto;display:grid;grid-template-columns:repeat(auto-fill,384px);gap:18px;padding:24px;justify-content:center}
+body.grid .slide{display:block;position:relative;width:1920px;height:1080px;transform:scale(.2);transform-origin:0 0;margin:0 -1536px -864px 0;cursor:pointer;animation:none;outline:6px solid transparent}
+body.grid .slide:hover{outline-color:var(--before)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@page{size:16in 9in landscape;margin:0}
+@media print{
+  html,body{overflow:visible;height:auto;background:var(--bg);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .ui,#notes{display:none!important}
+  .stage{position:static;transform:none!important;width:auto;height:auto}
+  .foot span:last-child{visibility:visible}
+  .slide{display:block!important;position:relative;width:1920px;height:1080px;page-break-after:always;break-after:page;break-inside:avoid;animation:none;zoom:.8;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+  var S=[].slice.call(document.querySelectorAll('.slide')),st=document.getElementById('stage'),i=0,body=document.body,notes=document.getElementById('notes'),cnt=document.getElementById('count');
+  function pad(n){return (n<10?'0':'')+n}
+  function fit(){if(body.classList.contains('grid')){st.style.transform='none';return}var k=Math.min(innerWidth/1920,innerHeight/1080);st.style.transform='scale('+k+') translate(-50%,-50%)';st.style.transformOrigin='0 0';st.style.left='50%';st.style.top='50%';st.style.transform='translate(-50%,-50%) scale('+k+')';st.style.transformOrigin='50% 50%';}
+  function go(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach(function(s,j){s.classList.toggle('on',j===i)});cnt.textContent=pad(i+1)+' / '+pad(S.length);var a=S[i].querySelector('.speaker-notes');notes.textContent=a?a.textContent:'';if(location.hash!=='#'+(i+1))history.replaceState(null,'','#'+(i+1));}
+  function grid(on){body.classList.toggle('grid',on);fit();}
+  document.addEventListener('keydown',function(e){
+    if(e.metaKey||e.ctrlKey||e.altKey)return;
+    var k=e.key;
+    if(k==='ArrowRight'||k===' '||k==='PageDown'){e.preventDefault();grid(false);go(i+1)}
+    else if(k==='ArrowLeft'||k==='PageUp'){e.preventDefault();grid(false);go(i-1)}
+    else if(k==='Home'){grid(false);go(0)}else if(k==='End'){grid(false);go(S.length-1)}
+    else if(k==='Escape'){grid(!body.classList.contains('grid'))}
+    else if(k==='p'||k==='P'){body.classList.toggle('presenter')}
+  });
+  S.forEach(function(s,j){s.addEventListener('click',function(){if(body.classList.contains('grid')){grid(false);go(j)}})});
+  document.getElementById('prev').onclick=function(){go(i-1)};document.getElementById('next').onclick=function(){go(i+1)};
+  document.getElementById('gridb').onclick=function(){grid(!body.classList.contains('grid'))};
+  document.getElementById('presb').onclick=function(){body.classList.toggle('presenter')};
+  var t;document.addEventListener('mousemove',function(){body.classList.remove('idle');clearTimeout(t);if(body.classList.contains('presenter'))t=setTimeout(function(){body.classList.add('idle')},2000)});
+  addEventListener('resize',fit);
+  addEventListener('hashchange',function(){var n=parseInt(location.hash.slice(1),10);if(n>0&&n-1!==i){grid(false);go(n-1)}});
+  var h=parseInt(location.hash.slice(1),10);go(h>0?h-1:0);fit();
+});
+</script>
+</head>
+<body>
+<div id="notes" aria-live="polite"></div>
+<nav class="ui" aria-label="Deck controls"><a href="../">Landing</a><button type="button" id="prev" aria-label="Previous slide">←</button><span id="count">01 / 10</span><button type="button" id="next" aria-label="Next slide">→</button><button type="button" id="gridb" aria-label="Overview (Esc)">Grid</button><button type="button" id="presb" aria-label="Presenter notes (P)">Notes</button></nav>
+<div class="stage" id="stage">
+
+<section class="slide">
+  <div class="kop"><img src="../assets/icon.svg" alt=""><b>Nanti</b><span></span><span>Catvertising · v0.1.3</span></div>
+  <div style="position:absolute;left:120px;top:250px;width:1000px">
+    <h1>The letter leaves first. The ad <em>waits its turn.</em></h1>
+    <div class="term" style="margin-top:56px;width:640px"><div class="c">npm test</div><div class="g">Tests  81 passed (81)</div></div>
+  </div>
+  <div class="a4" style="left:1250px;top:190px;width:500px;height:700px"><div class="r">Jakarta, 15 September 2026</div><br><i style="width:60%;height:14px;background:#CFC6B2"></i><i></i><i style="width:70%"></i><i></i><i style="width:85%"></i><i style="width:55%"></i><i style="width:40%;margin:60px 0 0 auto"></i><i style="width:30%;margin:50px 0 0 auto"></i>
+    <div class="tab" style="right:-150px;bottom:70px">Tab: 1 ad owed · pay later</div></div>
+  <div class="foot"><span>Names fictional</span><span>Halaman 01 / 10</span></div>
+  <aside class="speaker-notes">PDF first; the ad waits.</aside>
+</section>
+
+<section class="slide">
+  <div class="kop"><img src="../assets/icon.svg" alt=""><span></span><span>v0.1.3</span></div>
+  <p class="lbl"><b>Perihal</b> : the tab</p>
+  <h2 style="font-size:170px;max-width:880px;line-height:.95">1 ad owed. <em>Never 2.</em></h2>
+  <p class="big" style="max-width:780px;font-size:38px;margin-top:40px">Only RevenueCat's server can press the stamp. <span class="pend">Not yet seen on a device.</span></p>
+  <img class="shot" src="../assets/04-ad-owed-tab.webp" width="720" height="1280" alt="Home screen with the amber pill: Tab: 1 ad owed · pay later" style="position:absolute;left:1060px;top:150px;width:440px;height:auto;transform:rotate(-2deg)">
+  <div class="stamp" style="left:560px;top:790px"><big>LUNAS</big>ADS +1<em>RevenueCat only</em></div>
+  <div class="foot"><span></span><span>Halaman 02 / 10</span></div>
+  <aside class="speaker-notes">One owed ad, settled server-side.</aside>
+</section>
+
+<section class="slide">
+  <div class="kop"><img src="../assets/icon.svg" alt=""><span></span><span>v0.1.3</span></div>
+  <p class="lbl"><b>Perihal</b> : the order</p>
+  <div style="font:400 170px/1.02 var(--font-display);margin-top:40px"><s style="color:var(--muted);text-decoration-color:var(--before-ink);text-decoration-thickness:10px">Ad, then the PDF.</s><br>The PDF, <em style="color:var(--before-ink)">then the ad.</em></div>
+  <p class="big" style="margin-top:60px;font-size:40px;max-width:1400px">Dina needs a leave letter in HR's WhatsApp before work.</p>
+  <div class="foot"><span>Dina is fictional</span><span>Halaman 03 / 10</span></div>
+  <aside class="speaker-notes">Reverse the order.</aside>
+</section>
+
+<section class="slide">
+  <div class="kop"><img src="../assets/icon.svg" alt=""><span></span><span>v0.1.3</span></div>
+  <p class="lbl"><b>Perihal</b> : one flow, real screens</p>
+  <div class="cols" style="grid-template-columns:repeat(3,400px);gap:120px;margin-top:10px;justify-content:center">
+    <figure style="margin:0"><img class="shot" src="../assets/03-letter-preview.webp" width="720" height="1280" alt="Form with live letter preview" style="width:400px;height:auto"><figcaption class="data" style="font-size:24px;margin-top:18px"><b>1</b> fill 5 fields</figcaption></figure>
+    <figure style="margin:0"><img class="shot" src="../assets/04-ad-owed-tab.webp" width="720" height="1280" alt="Home with the tab: 1 ad owed" style="width:400px;height:auto"><figcaption class="data" style="font-size:24px;margin-top:18px"><b>2</b> PDF shared → tab 1</figcaption></figure>
+    <figure style="margin:0"><img class="shot" src="../assets/05-settle-sheet.webp" width="720" height="1280" alt="Settle sheet: watch 1 ad, Pro, or later" style="width:400px;height:auto"><figcaption class="data" style="font-size:24px;margin-top:18px"><b>3</b> settle · Pro · later</figcaption></figure>
+  </div>
+  <div class="foot"><span>Emulator, 2026-09-26</span><span>Halaman 04 / 10</span></div>
+  <aside class="speaker-notes">Value, then tab, then choice.</aside>
+</section>
+
+<section class="slide">
+  <div class="kop"><img src="../assets/icon.svg" alt=""><span></span><span>v0.1.3</span></div>
+  <p class="lbl"><b>Perihal</b> : settlement</p>
+  <h2>The app asks. <em>The server decides.</em></h2>
+  <svg viewBox="0 0 1680 600" width="1680" height="600" style="margin-top:10px" role="img" aria-label="Settle sequence diagram">
+    <defs><marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10z" fill="#171B22"/></marker><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10z" fill="#0B6E4A"/></marker></defs>
+    <g font-family="Courier Prime,monospace" font-size="32">
+      <rect x="0" y="0" width="340" height="84" rx="6" fill="#0F1419"/><text x="170" y="54" text-anchor="middle" fill="#F3F4F6" font-family="Instrument Serif,serif" font-size="40">Nanti</text>
+      <rect x="670" y="0" width="340" height="84" rx="6" fill="#FFFDF7" stroke="#171B22" stroke-width="2"/><text x="840" y="54" text-anchor="middle" fill="#171B22" font-family="Instrument Serif,serif" font-size="40">AdMob</text>
+      <rect x="1340" y="0" width="340" height="84" rx="6" fill="#FFFDF7" stroke="#0B6E4A" stroke-width="3"/><text x="1510" y="54" text-anchor="middle" fill="#0B6E4A" font-family="Instrument Serif,serif" font-size="40">RevenueCat</text>
+      <path d="M170 84v470M840 84v470M1510 84v470" stroke="#C9BFA8" stroke-width="2" stroke-dasharray="4 7"/>
+      <path d="M170 190H1500" stroke="#171B22" stroke-width="2.5" marker-end="url(#a1)"/><text x="195" y="176" fill="#171B22">1 · verification token</text>
+      <path d="M170 290H830" stroke="#171B22" stroke-width="2.5" marker-end="url(#a1)"/><text x="195" y="276" fill="#171B22">2 · rewarded ad</text>
+      <path d="M840 390H1500" stroke="#0B6E4A" stroke-width="3" stroke-dasharray="10 7" marker-end="url(#a2)"/><text x="865" y="376" fill="#0B6E4A">3 · SSV callback</text>
+      <path d="M1510 490H180" stroke="#0B6E4A" stroke-width="3" stroke-dasharray="10 7" marker-end="url(#a2)"/><text x="880" y="476" fill="#0B6E4A">4 · ADS +1</text>
+      <text x="195" y="585" fill="#8A4E00">dashed: not yet run</text>
+    </g>
+  </svg>
+  <div class="foot"><span>docs/SPIKE.md</span><span>Halaman 05 / 10</span></div>
+  <aside class="speaker-notes">Clients cannot grant rewards.</aside>
+</section>
+
+<section class="slide">
+  <div class="kop"><img src="../assets/icon.svg" alt=""><span></span><span>v0.1.3</span></div>
+  <p class="lbl"><b>Perihal</b> : the ledger</p>
+  <p class="big data" style="font-size:52px;max-width:none;margin-top:20px">debt = clamp(exported − ADS, 0, 1)</p>
+  <div class="cols" style="grid-template-columns:.8fr 1.4fr 1.6fr;margin-top:110px">
+    <div class="cell"><div class="num">0</div><span>client-side writes</span><code>ablation</code></div>
+    <div class="cell"><div class="num">70,602</div><span>ledger transitions</span></div>
+    <div class="cell"><div class="num">299,592</div><span>settle paths, all via verified</span></div>
+  </div>
+  <div class="foot"><span></span><span>Halaman 06 / 10</span></div>
+  <aside class="speaker-notes">The app only reads.</aside>
+</section>
+
+<section class="slide">
+  <div class="kop"><img src="../assets/icon.svg" alt=""><span></span><span>v0.1.3</span></div>
+  <p class="lbl"><b>Perihal</b> : the engine</p>
+  <h2 style="font-size:130px">Ads and Pro, <em>one customer.</em></h2>
+  <div class="cols" style="grid-template-columns:1fr 1fr;margin-top:60px">
+    <div class="cell"><p class="big" style="font-size:30px;margin-bottom:24px">The owed ad</p><span class="chip">generateRewardVerificationToken</span><span class="chip">pollRewardVerification</span><span class="chip">getVirtualCurrencies</span><span class="chip">adTracker × 5</span></div>
+    <div class="cell"><p class="big" style="font-size:30px;margin-bottom:24px">Pro clears it <span class="pend">— products pending</span></p><span class="chip">getCurrentOfferingForPlacement</span><span class="chip">presentPaywall</span><span class="chip">restorePurchases</span></div>
+  </div>
+  <div class="foot"><span>README.md</span><span>Halaman 07 / 10</span></div>
+  <aside class="speaker-notes">Without RevenueCat, no settle.</aside>
+</section>
+
+<section class="slide">
+  <div class="kop"><img src="../assets/icon.svg" alt=""><span></span><span>v0.1.3</span></div>
+  <p class="lbl"><b>Tembusan</b> : not done yet</p>
+  <div class="cols" style="grid-template-columns:repeat(3,1fr);margin-top:120px">
+    <blockquote><p>Settle round-trip: <em>not yet run on a device.</em></p><cite>JUDGE.md</cite></blockquote>
+    <blockquote><p>Pro products: <em>not yet created.</em></p><cite>JUDGE.md</cite></blockquote>
+    <blockquote><p>Play listing, video: <em>not yet.</em></p><cite>DEMO.md</cite></blockquote>
+  </div>
+  <div class="foot"><span></span><span>Halaman 08 / 10</span></div>
+  <aside class="speaker-notes">Missing, said first.</aside>
+</section>
+
+<section class="slide">
+  <div class="kop"><img src="../assets/icon.svg" alt=""><span></span><span>v0.1.3</span></div>
+  <p class="lbl"><b>Lampiran</b> : receipts</p>
+  <div class="cols" style="grid-template-columns:1fr 1fr 1fr;margin-top:30px">
+    <div class="cell"><div class="num">81</div><span>tests passing</span></div>
+    <div class="cell"><div class="num">8</div><span>golden letters</span></div>
+    <div class="cell"><div class="num">100%</div><span>lines, pure modules</span></div>
+  </div>
+  <div class="term" style="margin-top:90px;width:1100px;font-size:30px"><div class="c">npm run ablation</div><div class="g">ablation: 0 client-side settle increments</div></div>
+  <div class="foot"><span>2026-09-26</span><span>Halaman 09 / 10</span></div>
+  <aside class="speaker-notes">Offline, no keys.</aside>
+</section>
+
+<section class="slide">
+  <div class="kop"><img src="../assets/icon.svg" alt=""><span></span><span>v0.1.3</span></div>
+  <p class="lbl"><b>Hormat kami</b> : the ask</p>
+  <h2 style="font-size:130px;max-width:1100px">Judge the placement. <em>Hold us to G1.</em></h2>
+  <p class="big data" style="font-size:36px;line-height:1.8;margin-top:50px">github.com/edycutjong/nanti<br>edycutjong.github.io/nanti</p>
+  <div style="position:absolute;right:140px;top:250px;text-align:center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33" width="520" height="520" role="img" aria-label="QR code for https://edycutjong.github.io/nanti/" class="segno"><g><path fill="#fffdf7" d="M0 0h33v33h-33z"/><path class="qrline" stroke="#171b22" d="M2 2.5h7m1 0h1m1 0h1m2 0h1m1 0h1m1 0h4m1 0h7m-29 1h1m5 0h1m1 0h1m1 0h1m1 0h2m3 0h1m2 0h1m1 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m2 0h1m1 0h2m3 0h1m2 0h2m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h2m4 0h2m1 0h1m2 0h1m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m2 0h1m1 0h2m1 0h1m2 0h3m2 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m3 0h1m2 0h1m4 0h3m1 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-21 1h1m2 0h1m3 0h4m1 0h1m-21 1h1m1 0h2m1 0h3m1 0h1m1 0h3m1 0h4m3 0h1m2 0h1m1 0h2m-25 1h2m3 0h1m1 0h1m1 0h2m3 0h3m1 0h3m3 0h1m-29 1h1m2 0h5m1 0h1m1 0h1m1 0h1m2 0h1m4 0h1m2 0h1m1 0h2m-25 1h1m3 0h1m1 0h3m4 0h1m3 0h3m5 0h1m-27 1h2m1 0h5m1 0h1m2 0h1m2 0h2m6 0h2m-27 1h2m2 0h1m3 0h3m3 0h3m2 0h1m1 0h2m3 0h3m-29 1h7m1 0h2m1 0h3m2 0h4m1 0h3m2 0h3m-29 1h2m1 0h1m4 0h1m1 0h2m2 0h3m1 0h4m5 0h1m-27 1h1m4 0h1m2 0h1m1 0h2m1 0h1m1 0h1m1 0h4m2 0h2m1 0h1m-27 1h1m1 0h1m1 0h1m1 0h1m3 0h2m1 0h2m1 0h1m5 0h1m1 0h3m-28 1h1m3 0h4m1 0h1m2 0h4m2 0h1m1 0h3m1 0h1m1 0h1m-25 1h2m5 0h2m1 0h8m2 0h1m3 0h1m-26 1h1m2 0h1m1 0h3m1 0h1m2 0h14m-19 1h1m3 0h1m3 0h3m1 0h1m3 0h5m-29 1h7m1 0h5m1 0h1m1 0h1m1 0h3m1 0h1m1 0h2m1 0h1m-28 1h1m5 0h1m1 0h4m1 0h2m1 0h1m1 0h1m1 0h1m3 0h2m1 0h1m-28 1h1m1 0h3m1 0h1m2 0h1m2 0h1m2 0h1m1 0h2m1 0h5m1 0h2m-28 1h1m1 0h3m1 0h1m1 0h3m1 0h1m2 0h2m4 0h1m1 0h3m2 0h1m-29 1h1m1 0h3m1 0h1m1 0h2m3 0h2m1 0h3m1 0h1m2 0h1m2 0h1m1 0h1m-29 1h1m5 0h1m2 0h1m1 0h2m3 0h1m3 0h1m1 0h4m1 0h1m-28 1h7m1 0h1m3 0h1m1 0h2m2 0h5m4 0h1"/></g></svg><div class="data" style="font-size:20px;margin-top:10px;color:var(--muted)">the landing page</div></div>
+  <div class="foot"><span>Play not live yet</span><span>Halaman 10 / 10</span></div>
+  <aside class="speaker-notes">Scan and check.</aside>
+</section>
+
+</div>
+</body>
+</html>
