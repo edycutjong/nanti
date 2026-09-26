@@ -15,7 +15,7 @@ npx tsx bin/surat.ts demo 1 > /tmp/letter1.html && open /tmp/letter1.html
 Expected (re-run 2026-09-26, Apple M-series):
 
 ```
-Tests  79 passed (79)
+Tests  81 passed (81)
 nanti bench — 8 templates × 1000 renders
   izin-kerja  2109 bytes  p50 2 µs  p95 2 µs   …   PASS (golden 8/8)
   ledger: 200,000 transitions, 30 ns each
@@ -35,7 +35,7 @@ ablation: 0 client-side settle increments in src/ (must be 0)
 
 | Receipt                                                                                                                    | Status                                                                                                                                                                                                             |
 | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 79 tests · bench · verify:offline · ablation                                                                               | ✅ section 1                                                                                                                                                                                                       |
+| 81 tests · bench · verify:offline · ablation                                                                               | ✅ section 1                                                                                                                                                                                                       |
 | Signed release AAB (`bundleRelease`, upload key in `~/.config/nanti/`, signer = keystore, not debug)                       | ✅ 72 MB, rebuilt 2026-09-17 — Play key (`goog_`) and the real `settle_rewarded` unit inlined, upload-key signed, `EXTERNAL_STORAGE` blocked; `npm run verify:artifact` PASS. The AAB itself stays out of the repo |
 | Metro bundle carries every reward/ad/paywall call + the templates                                                          | ✅ `npm run bundle:check` (3.5 MB Hermes bytecode, 2026-09-16)                                                                                                                                                     |
 | Native debug APK `dev.edycu.nanti` assembles with RevenueCat, Google Mobile Ads (RewardedAd), SQLite and Print in the dex  | ✅ `expo prebuild` + `gradlew assembleDebug`, 2026-09-16 — four attempts; see `plugins/withKotlinMetadataCheck.js`                                                                                                 |

@@ -42,7 +42,7 @@ export function FormScreen({
   onBack: () => void;
   onExported: (blocked: boolean) => void;
 }) {
-  const { t, locale, lastCity, setLastCity, recordExport } = useApp();
+  const { t, locale, lastCity, setLastCity, wouldBlockExport, recordExport } = useApp();
   const [values, setValues] = useState<Values>(() => {
     const init: Values = {};
     for (const f of template.fields) {
@@ -72,16 +72,18 @@ export function FormScreen({
     setBusy(true);
     setErr(null);
     try {
-      // The ledger table decides first. Home routes a debt-1 tap to the Settle sheet, so this
-      // call is 'open-tab' or 'pro-export' — or 'grace' when the sheet's no_fill state armed
-      // "Lanjut dulu": adAvailable=false, forgiven += 1, the letter is still delivered.
-      const transition = recordExport(!graceArmed);
-      if (transition.blocked) {
+      // The ledger table decides first (without committing). Home routes a debt-1 tap to the
+      // Settle sheet, so this is 'open-tab' or 'pro-export' — or 'grace' when the sheet's no_fill
+      // state armed "Lanjut dulu": adAvailable=false, forgiven += 1, the letter is still delivered.
+      if (wouldBlockExport(!graceArmed)) {
         onExported(true);
         return;
       }
       setLastCity(ctx.kota);
       await exportAndShare(html, pdfFileName(template, values, iso(today)), t.share.title);
+      // Committed only once the PDF exists: a print failure must never leave an ad owed for a
+      // letter that was not delivered.
+      recordExport(!graceArmed);
       onExported(false);
     } catch (e) {
       setErr(e instanceof Error ? e.message : String(e));

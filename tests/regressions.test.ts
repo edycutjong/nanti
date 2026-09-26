@@ -153,4 +153,19 @@ describe('regressions', () => {
     expect(id.settle.watch).toBe('Tonton 1 iklan untuk melunasi tab');
     expect(en.settle.watch + id.settle.watch).not.toMatch(/20/);
   });
+  it('settled_sheet_reset_to_idle_when_the_balance_refresh_landed (2026-09-26 audit, round 2)', () => {
+    // The open-sheet reset effect depended on adsBalance; the post-settle refresh (ADS 0 → 1)
+    // re-ran it, set state back to idle, cancelled the green close timer and left the sheet open.
+    const sheet = src('src/screens/SettleSheet.tsx');
+    expect(sheet).toMatch(/if \(visible && !wasVisible\.current\) \{\s*setState\('idle'\)/);
+    expect(sheet).toMatch(/wasVisible\.current = visible;/);
+  });
+  it('a_failed_print_still_put_an_ad_on_the_tab (2026-09-26 audit, round 2)', () => {
+    // Form committed the export before printing; if expo-print threw, the tab read 1 ad owed for
+    // a letter that never existed — against "every letter is delivered before its own ad".
+    const form = src('src/screens/Form.tsx').replace(/\/\/.*$/gm, '');
+    const printed = form.indexOf('await exportAndShare(');
+    expect(form.indexOf('wouldBlockExport(!graceArmed)')).toBeLessThan(printed);
+    expect(form.indexOf('recordExport(!graceArmed)')).toBeGreaterThan(printed);
+  });
 });

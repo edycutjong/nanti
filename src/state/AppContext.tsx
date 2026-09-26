@@ -43,7 +43,9 @@ interface AppState {
   lastCity: string;
   setLocalePref(p: LocalePref): void;
   setLastCity(c: string): void;
-  /** Runs the export table; persists; syncs Targeting attributes. */
+  /** The export table's verdict for the next export, without committing anything. */
+  wouldBlockExport(adAvailable: boolean): boolean;
+  /** Runs the export table; persists; syncs Targeting attributes. Call only once the PDF exists. */
   recordExport(adAvailable: boolean): Transition;
   refreshBalance(fresh?: boolean): Promise<number | null>;
   refreshInfo(): Promise<void>;
@@ -123,6 +125,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     [ledger, adsBalance, isPro, rcConfigured],
   );
 
+  const wouldBlockExport = useCallback(
+    (adAvailable: boolean) =>
+      reduce(ledger, adsBalance, { type: 'export', isPro, adAvailable }).blocked,
+    [ledger, adsBalance, isPro],
+  );
+
   const setLocalePref = useCallback((p: LocalePref) => {
     setLocalePrefState(p);
     store.savePrefs({ locale: p });
@@ -150,6 +158,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       lastCity,
       setLocalePref,
       setLastCity,
+      wouldBlockExport,
       recordExport,
       refreshBalance,
       refreshInfo,
@@ -169,6 +178,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       lastCity,
       setLocalePref,
       setLastCity,
+      wouldBlockExport,
       recordExport,
       refreshBalance,
       refreshInfo,

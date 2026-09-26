@@ -10,7 +10,7 @@
 
 [For the judge → JUDGE.md](JUDGE.md) · [live judge page](https://edycutjong.github.io/nanti/judge.html) · [The flow](#-the-one-flow) · [Why the tab cannot lie](#-why-the-tab-cannot-lie) · [RevenueCat integration](#-revenuecat-is-the-engine) · [Run it](#-run-it-without-credentials)
 
-![Expo](https://img.shields.io/badge/Expo_54-000?logo=expo&logoColor=fff) ![React Native](https://img.shields.io/badge/React_Native_0.81-20232a?logo=react) ![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?logo=typescript&logoColor=fff) ![RevenueCat](https://img.shields.io/badge/RevenueCat_10.9_+_Ads-f25a5a) ![AdMob](https://img.shields.io/badge/AdMob_SSV-4285F4?logo=google&logoColor=fff) ![tests](https://img.shields.io/badge/tests-79_passing-2ea44f) [![CI](https://github.com/edycutjong/nanti/actions/workflows/ci.yml/badge.svg)](https://github.com/edycutjong/nanti/actions/workflows/ci.yml) [![CodeQL](https://github.com/edycutjong/nanti/actions/workflows/codeql.yml/badge.svg)](https://github.com/edycutjong/nanti/actions/workflows/codeql.yml) [![gitleaks](https://github.com/edycutjong/nanti/actions/workflows/gitleaks.yml/badge.svg)](https://github.com/edycutjong/nanti/actions/workflows/gitleaks.yml) [![Release](https://img.shields.io/github/v/release/edycutjong/nanti)](https://github.com/edycutjong/nanti/releases)
+![Expo](https://img.shields.io/badge/Expo_54-000?logo=expo&logoColor=fff) ![React Native](https://img.shields.io/badge/React_Native_0.81-20232a?logo=react) ![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?logo=typescript&logoColor=fff) ![RevenueCat](https://img.shields.io/badge/RevenueCat_10.9_+_Ads-f25a5a) ![AdMob](https://img.shields.io/badge/AdMob_SSV-4285F4?logo=google&logoColor=fff) ![tests](https://img.shields.io/badge/tests-81_passing-2ea44f) [![CI](https://github.com/edycutjong/nanti/actions/workflows/ci.yml/badge.svg)](https://github.com/edycutjong/nanti/actions/workflows/ci.yml) [![CodeQL](https://github.com/edycutjong/nanti/actions/workflows/codeql.yml/badge.svg)](https://github.com/edycutjong/nanti/actions/workflows/codeql.yml) [![gitleaks](https://github.com/edycutjong/nanti/actions/workflows/gitleaks.yml/badge.svg)](https://github.com/edycutjong/nanti/actions/workflows/gitleaks.yml) [![Release](https://img.shields.io/github/v/release/edycutjong/nanti)](https://github.com/edycutjong/nanti/releases)
 
 </div>
 
@@ -75,7 +75,7 @@ Dashboard objects created: entitlement `pro` · virtual currency `ADS` · Reward
 
 ```bash
 npm install --legacy-peer-deps
-npm test                    # 79 tests: 8 golden templates, ledger invariants, settle state machine, i18n parity, formatting
+npm test                    # 81 tests: 8 golden templates, ledger invariants, settle state machine, i18n parity, formatting
 npm run bench               # each template rendered 1,000× — p50/p95 per template + ledger throughput; fails on golden drift
 npm run verify:offline      # the offline-capable parts, no network
 npm run ablation            # 0 client-side settle increments in src/
@@ -106,8 +106,8 @@ npm run secrets        # gitleaks over the tree (CI runs it over full history)
 | Layer                                       | Tool                                                                                                                         | Status                                                                 |
 | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
 | Code quality                                | Prettier · ESLint 9 (flat) · tsc                                                                                             | ✅                                                                     |
-| Unit tests                                  | vitest — 79 tests, 8 golden templates, 100 % lines on the pure modules                                                       | ✅                                                                     |
-| High-signal tests                           | 70,602-transition + 299,592-path exhaustive · 13 defect-named regressions · "client cannot pay" boundary                     | ✅                                                                     |
+| Unit tests                                  | vitest — 81 tests, 8 golden templates, 100 % lines on the pure modules                                                       | ✅                                                                     |
+| High-signal tests                           | 70,602-transition + 299,592-path exhaustive · 15 defect-named regressions · "client cannot pay" boundary                     | ✅                                                                     |
 | Build verification                          | Metro export + bundle assertions; Android `assembleDebug` + manifest inspection (main)                                       | ✅                                                                     |
 | Security (SAST / SCA)                       | CodeQL · Dependabot alerts + security updates · version updates grouped, no majors, beta + Expo-pinned SDKs held · npm audit | ✅                                                                     |
 | Secret scanning                             | gitleaks (full history) · TruffleHog (verified) · GitHub secret scanning + push protection                                   | ✅                                                                     |
@@ -128,7 +128,7 @@ src/pdf/            export.ts (expo-print → real file name → share sheet)
 src/i18n/           id · en (chrome only — letters are always Indonesian)
 src/screens/        Home · Form (live preview) · SettleSheet · Settings (RevenueCat receipt)
 scripts/            bench · verify_offline · ablation · settle-log-export · check_submission_readiness · bundle-check
-tests/              79 tests + golden/ (8 HTML files) — incl. 70,602 ledger + 299,592 settle-path exhaustive verification
+tests/              81 tests + golden/ (8 HTML files) — incl. 70,602 ledger + 299,592 settle-path exhaustive verification
 docs/               LEDGER.md · SPIKE.md · DX-REPORT.md · assets/
 site/               landing + privacy policy (GitHub Pages)
 ```

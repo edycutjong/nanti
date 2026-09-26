@@ -29,12 +29,17 @@ export function SettleSheet({
   const [proNote, setProNote] = useState<string | null>(null);
   const tick = useRef(new Animated.Value(0)).current;
 
+  // Reset only when the sheet OPENS. Depending on adsBalance alone used to reset a just-`settled`
+  // sheet to `idle`: the post-settle refreshBalance moves adsBalance 0 → 1, which cancelled the
+  // green close timer and left the sheet open reading "1 ad owed" over a paid tab.
+  const wasVisible = useRef(false);
   useEffect(() => {
-    if (visible) {
+    if (visible && !wasVisible.current) {
       setState('idle');
       setShownBalance(adsBalance);
       setProNote(null);
     }
+    wasVisible.current = visible;
   }, [visible, adsBalance]);
 
   useEffect(() => {
