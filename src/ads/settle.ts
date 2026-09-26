@@ -29,17 +29,25 @@ import {
   TestIds,
 } from 'react-native-google-mobile-ads';
 import { readAdsBalance } from '../rc/client';
+import { initAds } from './init';
 import { next, outcomeOf, type SettleEvent, type SettleState } from './settleState';
 import { PLACEMENT_SETTLE, precisionOf, track } from './tracker';
 
 /**
- * The real rewarded unit `settle_rewarded` from the env. SSV cannot be enabled
- * on Google's sample unit, so with the fallback a verification will (correctly)
- * come back `failed` and the tab stays — the app never pretends otherwise.
+ * AdMob policy: development builds request Google's test rewarded unit, always —
+ * never the live unit, so a developer's own taps can never count as invalid
+ * traffic. Release builds (`__DEV__ === false`) use the real `settle_rewarded`
+ * unit inlined from the env at build time (`verify:artifact` fails a release
+ * artifact that carries the sample unit). SSV cannot be enabled on Google's
+ * test unit, so on it a verification (correctly) comes back `failed` and the
+ * tab stays — the app never pretends otherwise.
  */
-export function rewardedUnitId(): { id: string; isSample: boolean } {
-  const id = process.env.EXPO_PUBLIC_ADMOB_REWARDED_UNIT ?? '';
-  return id ? { id, isSample: false } : { id: TestIds.REWARDED, isSample: true };
+export function rewardedUnitId(
+  dev: boolean = __DEV__,
+  envUnit: string | undefined = process.env.EXPO_PUBLIC_ADMOB_REWARDED_UNIT,
+): { id: string; isSample: boolean } {
+  if (dev || !envUnit) return { id: TestIds.REWARDED, isSample: true };
+  return { id: envUnit, isSample: false };
 }
 
 export interface SettleLogRow {
@@ -71,12 +79,33 @@ export async function settleOneAd(balanceBefore: number, hooks: SettleHooks): Pr
   };
   emit({ type: 'start' });
 
-  // 4. bind the impression to this customer before the ad is even requested
-  const token = await Purchases.generateRewardVerificationToken(impressionId);
+  // No ad request before the Mobile Ads SDK has initialised (memoised; App.tsx started it).
+  await initAds();
 
-  const ad = RewardedAd.createForAdRequest(adUnitId, {
-    serverSideVerificationOptions: { userId: token.appUserID, customData: token.customData },
-  });
+  // 4. bind the impression to this customer before the ad is even requested. If the token
+  // cannot be minted (offline, Ads beta not enabled) or the request cannot be built, no ad can
+  // be served: that is no_fill — the grace path — never a stuck spinner or an unhandled rejection.
+  let token: Awaited<ReturnType<typeof Purchases.generateRewardVerificationToken>>;
+  let ad: RewardedAd;
+  try {
+    token = await Purchases.generateRewardVerificationToken(impressionId);
+    ad = RewardedAd.createForAdRequest(adUnitId, {
+      serverSideVerificationOptions: { userId: token.appUserID, customData: token.customData },
+    });
+  } catch {
+    void track.failedToLoad(ref);
+    emit({ type: 'load_error' });
+    hooks.onLog({
+      impressionId,
+      tEarned: Date.now(),
+      tVerified: null,
+      tBalance: null,
+      balanceBefore,
+      balanceAfter: null,
+      outcome: 'no_fill',
+    });
+    return state;
+  }
 
   let tEarned = 0;
   const finished = new Promise<SettleState>((resolve) => {
@@ -137,6 +166,14 @@ export async function settleOneAd(balanceBefore: number, hooks: SettleHooks): Pr
           break;
       }
     });
+
+    try {
+      ad.load();
+    } catch {
+      void track.failedToLoad(ref);
+      emit({ type: 'load_error' });
+      finish(state);
+    }
   });
 
   async function verify(): Promise<SettleState> {
@@ -183,7 +220,6 @@ export async function settleOneAd(balanceBefore: number, hooks: SettleHooks): Pr
     return state;
   }
 
-  ad.load();
   const final = await finished;
   const outcome = outcomeOf(final);
   if (outcome && outcome !== 'verified' && outcome !== 'failed')

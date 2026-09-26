@@ -24,12 +24,16 @@ export function SettleSheet({
   const { t, adsBalance, refreshBalance, refreshInfo, logSettle, rcConfigured, isPro } = useApp();
   const [state, setState] = useState<SettleState>('idle');
   const [shownBalance, setShownBalance] = useState(adsBalance);
+  const [proBusy, setProBusy] = useState(false);
+  /** Shown under the Pro button when there is nothing to sell yet, or the paywall failed. */
+  const [proNote, setProNote] = useState<string | null>(null);
   const tick = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (visible) {
       setState('idle');
       setShownBalance(adsBalance);
+      setProNote(null);
     }
   }, [visible, adsBalance]);
 
@@ -43,25 +47,41 @@ export function SettleSheet({
 
   const watch = async () => {
     if (!rcConfigured) return;
-    const final = await settleOneAd(adsBalance, {
-      onState: setState,
-      onLog: (row) => {
-        logSettle(row);
-        if (row.balanceAfter !== null) setShownBalance(row.balanceAfter);
-      },
-    });
+    setProNote(null);
+    let final: SettleState;
+    try {
+      final = await settleOneAd(adsBalance, {
+        onState: setState,
+        onLog: (row) => {
+          logSettle(row);
+          if (row.balanceAfter !== null) setShownBalance(row.balanceAfter);
+        },
+      });
+    } catch {
+      // settleOneAd handles its own failures; this is the last guard against a stuck spinner.
+      final = 'no_fill';
+      setState(final);
+    }
     // The pill is driven by the server balance — read it back regardless of outcome.
     await refreshBalance(final === 'settled');
   };
 
   const pro = async () => {
-    if (!rcConfigured) return;
-    const ok = await openProPaywall();
-    await refreshInfo();
-    if (ok) onClose();
+    if (!rcConfigured || proBusy) return;
+    setProBusy(true);
+    setProNote(null);
+    try {
+      const outcome = await openProPaywall();
+      await refreshInfo();
+      if (outcome === 'purchased') onClose();
+      else if (outcome === 'unavailable') setProNote(t.settle.proUnavailable);
+      else if (outcome === 'error') setProNote(t.settle.proError);
+    } finally {
+      setProBusy(false);
+    }
   };
 
-  const busy = state === 'loading' || state === 'playing' || state === 'verifying';
+  const busy = state === 'loading' || state === 'playing' || state === 'verifying' || proBusy;
   const statusLine: Partial<Record<SettleState, string>> = {
     loading: t.settle.loading,
     playing: t.settle.playing,
@@ -137,7 +157,17 @@ export function SettleSheet({
           tone="surface"
           onPress={pro}
           disabled={busy || !rcConfigured}
+          loading={proBusy}
         />
+        {proNote ? (
+          <T
+            variant="muted"
+            style={{ color: color.danger, textAlign: 'center', marginTop: space.sm }}
+            accessibilityLiveRegion="polite"
+          >
+            {proNote}
+          </T>
+        ) : null}
         {state === 'no_fill' && onContinue ? (
           <Press
             tone="ghost"

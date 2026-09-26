@@ -40,7 +40,7 @@ for (const p of [
   if (!fs.existsSync(path.join(root, p))) problems.push(`${p} missing`);
 
 const readme = read('README.md') || '';
-if (!/play\.google\.com\/store\/apps\/details\?id=app\.nanti\.surat/.test(readme))
+if (!/play\.google\.com\/store\/apps\/details\?id=dev\.edycu\.nanti/.test(readme))
   warns.push('README.md has no Play listing URL yet');
 if (!/youtu\.?be/.test(readme)) warns.push('README.md has no demo video URL yet');
 if (!fs.existsSync(path.join(root, 'docs/SETTLE-LOG.md')))

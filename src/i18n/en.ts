@@ -18,7 +18,7 @@ export const en: Strings = {
   settle: {
     title: '1 ad owed',
     subtitle: 'Your letter is already sent. Pay now, or later.',
-    watch: 'Watch 1 ad (~20 s)',
+    watch: 'Watch 1 ad to clear the tab',
     loading: 'loading ad…',
     playing: 'ad is playing',
     verifying: 'verifying…',
@@ -27,6 +27,8 @@ export const en: Strings = {
     noFill: 'No ad available. Your tab stays at 1, never 2.',
     closedEarly: 'Ad closed before the end. Your tab stays at 1.',
     pro: 'Nanti Pro — no ads, ever',
+    proUnavailable: 'Nanti Pro is not available yet. Watch the ad, or try again later.',
+    proError: 'Could not open Nanti Pro. Please try again.',
     later: 'Later',
     continue: 'Continue for now',
   },

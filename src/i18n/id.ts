@@ -16,7 +16,7 @@ export const id = {
   settle: {
     title: '1 iklan belum dibayar',
     subtitle: 'Suratmu sudah terkirim. Bayar sekarang, atau nanti.',
-    watch: 'Tonton 1 iklan (±20 dtk)',
+    watch: 'Tonton 1 iklan untuk melunasi tab',
     loading: 'memuat iklan…',
     playing: 'iklan sedang diputar',
     verifying: 'memverifikasi…',
@@ -25,6 +25,8 @@ export const id = {
     noFill: 'Iklan belum tersedia. Tab tetap 1, tidak pernah 2.',
     closedEarly: 'Iklan ditutup sebelum selesai. Tab tetap 1.',
     pro: 'Nanti Pro — tanpa iklan selamanya',
+    proUnavailable: 'Nanti Pro belum tersedia. Tonton iklannya, atau coba lagi nanti.',
+    proError: 'Nanti Pro gagal dibuka. Coba lagi.',
     later: 'Nanti saja',
     continue: 'Lanjut dulu',
   },

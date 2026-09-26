@@ -12,7 +12,6 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
-import mobileAds, { AdsConsent } from 'react-native-google-mobile-ads';
 import { useFonts, Inter_400Regular, Inter_600SemiBold } from '@expo-google-fonts/inter';
 import { SpaceGrotesk_700Bold } from '@expo-google-fonts/space-grotesk';
 
@@ -21,6 +20,7 @@ import { HomeScreen } from './src/screens/Home';
 import { FormScreen } from './src/screens/Form';
 import { SettleSheet } from './src/screens/SettleSheet';
 import { SettingsScreen } from './src/screens/Settings';
+import { initAds } from './src/ads/init';
 import type { Template } from './packages/surat';
 import { color } from './src/theme/tokens';
 
@@ -38,17 +38,11 @@ function Root() {
   const [graceArmed, setGraceArmed] = useState(false);
   useApp();
 
-  // UMP consent before the first ad request (EEA/UK policy), then the SDK init. Never blocks the letter.
+  // UMP consent before the first ad request (EEA/UK policy), then the SDK init. Never blocks the
+  // letter. Root renders only after AppProvider has run Purchases.configure (Gate waits on
+  // app.ready), and settle.ts awaits this same memoised promise before any ad request.
   useEffect(() => {
-    (async () => {
-      try {
-        await AdsConsent.requestInfoUpdate();
-        await AdsConsent.gatherConsent();
-      } catch {
-        /* consent unavailable — ads may no-fill; the tab's grace path covers it */
-      }
-      await mobileAds().initialize();
-    })();
+    void initAds();
   }, []);
 
   switch (screen.name) {
