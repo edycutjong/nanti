@@ -8,7 +8,7 @@
  *                                    └─ Nanti Pro → paywall @ tab_locked → pill gone for good
  */
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, BackHandler, StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
@@ -37,6 +37,17 @@ function Root() {
   // back through the sheet. This is invariant I4: forgiven moves only after a real ad failure.
   const [graceArmed, setGraceArmed] = useState(false);
   useApp();
+
+  // Android back returns form/settings to home instead of closing the app (found
+  // on the emulator). The settle sheet is a Modal and handles back itself.
+  useEffect(() => {
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (screen.name === 'home') return false;
+      setScreen({ name: 'home' });
+      return true;
+    });
+    return () => sub.remove();
+  }, [screen.name]);
 
   // UMP consent before the first ad request (EEA/UK policy), then the SDK init. Never blocks the
   // letter. Root renders only after AppProvider has run Purchases.configure (Gate waits on
