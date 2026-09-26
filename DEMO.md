@@ -22,7 +22,7 @@ nanti bench — 8 templates × 1000 renders
 ablation: 0 client-side settle increments in src/ (must be 0)
 ```
 
-## 2. The judge path on a device (dev build, < 3 minutes)
+## 2. The judge path on a device (dev build; the verified settle in step 4 needs a release build)
 
 1. Install (`npx expo run:android` with `.env` filled). Home shows eight tiles and no pill.
 2. **Surat Izin Tidak Masuk Kerja** → the five fields (city and date already filled) → the paper preview updates on every keystroke → **Buat PDF** → the share sheet opens with `Surat-Izin-Kerja-<name>-<date>.pdf`. _Nothing about an ad has appeared yet._

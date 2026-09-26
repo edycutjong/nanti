@@ -9,7 +9,7 @@
 1. Install the app — _there is no live Play listing yet (production upload in progress as of 2026-09-26); its link lands here when it is published. Until then the path below runs on a dev build — `DEMO.md` §2._
 2. **Surat Izin Tidak Masuk Kerja** → five fields (city and date are already filled) → the paper preview updates as you type → **Buat PDF** → the share sheet opens with a real file name. _No ad has appeared._
 3. Back on Home: the amber pill **`Tab: 1 iklan · bayar nanti`**.
-4. Tap any tile → the Settle sheet. **Tonton 1 iklan** → ad → _memverifikasi…_ → `ADS 0 → 1`, the pill turns green once and disappears. Or **Nanti Pro** → the RevenueCat paywall → violet **Pro** chip, no tab ever again.
+4. Tap any tile → the Settle sheet. **Tonton 1 iklan** → ad → _memverifikasi…_ → `ADS 0 → 1`, the pill turns green once and disappears (release build only: a dev build always serves Google's test unit, where verification correctly fails and the tab stays). Or **Nanti Pro** → the RevenueCat paywall → violet **Pro** chip, no tab ever again.
 5. Settings → **Bukti RevenueCat**: live `ADS` balance, `pro` entitlement, app user id, last 5 settles with Δ timings.
 
 Without a phone: `npm install --legacy-peer-deps && npx tsx bin/surat.ts demo 1 > letter.html` renders the exact HTML the PDF is printed from.
