@@ -15,7 +15,7 @@ npx tsx bin/surat.ts demo 1 > /tmp/letter1.html && open /tmp/letter1.html
 Expected (re-run 2026-09-26, Apple M-series):
 
 ```
-Tests  73 passed (73)
+Tests  79 passed (79)
 nanti bench — 8 templates × 1000 renders
   izin-kerja  2109 bytes  p50 2 µs  p95 2 µs   …   PASS (golden 8/8)
   ledger: 200,000 transitions, 30 ns each
@@ -27,7 +27,7 @@ ablation: 0 client-side settle increments in src/ (must be 0)
 1. Install (`npx expo run:android` with `.env` filled). Home shows eight tiles and no pill.
 2. **Surat Izin Tidak Masuk Kerja** → the five fields (city and date already filled) → the paper preview updates on every keystroke → **Buat PDF** → the share sheet opens with `Surat-Izin-Kerja-<name>-<date>.pdf`. _Nothing about an ad has appeared yet._
 3. Back on Home: the amber pill **`Tab: 1 iklan · bayar nanti`** slides in.
-4. Tap any tile → the Settle sheet. **Tonton 1 iklan** → the rewarded ad plays → _memverifikasi…_ → the counter ticks `ADS 0 → 1`, the pill turns green for 2 s and disappears. (Requires the real `settle_rewarded` unit with SSV → RevenueCat; on the sample unit this step correctly ends in _Verifikasi gagal_ and the tab stays.)
+4. Tap any tile → the Settle sheet. **Tonton 1 iklan** → the rewarded ad plays → _memverifikasi…_ → the counter ticks `ADS 0 → 1`, the pill turns green for 2 s and disappears. (Requires a **release** build — only release builds request the real `settle_rewarded` unit with SSV → RevenueCat, on a device registered as an AdMob test device. A dev build always uses Google's test unit, where this step correctly ends in _Verifikasi gagal_ and the tab stays.)
 5. Make a second letter (Surat Kuasa — visibly different structure). Pill again. This time tap **Nanti Pro** → the RevenueCat paywall at placement `tab_locked` → start the 7-day trial (Test Store: instant; **requires the products, offering and paywall, which are not yet created in the dashboard**) → the pill is replaced by a violet **Pro** chip and never returns.
 6. Settings → **Bukti RevenueCat**: live `ADS` balance, `pro` entitlement, app user id, the last 5 settles with `verify Δ` and `balance Δ` in seconds. **Restore purchases** and the language override (auto / Indonesia / English) are here too.
 
@@ -35,7 +35,7 @@ ablation: 0 client-side settle increments in src/ (must be 0)
 
 | Receipt                                                                                                                    | Status                                                                                                                                                                                                             |
 | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 73 tests · bench · verify:offline · ablation                                                                               | ✅ section 1                                                                                                                                                                                                       |
+| 79 tests · bench · verify:offline · ablation                                                                               | ✅ section 1                                                                                                                                                                                                       |
 | Signed release AAB (`bundleRelease`, upload key in `~/.config/nanti/`, signer = keystore, not debug)                       | ✅ 72 MB, rebuilt 2026-09-17 — Play key (`goog_`) and the real `settle_rewarded` unit inlined, upload-key signed, `EXTERNAL_STORAGE` blocked; `npm run verify:artifact` PASS. The AAB itself stays out of the repo |
 | Metro bundle carries every reward/ad/paywall call + the templates                                                          | ✅ `npm run bundle:check` (3.5 MB Hermes bytecode, 2026-09-16)                                                                                                                                                     |
 | Native debug APK `dev.edycu.nanti` assembles with RevenueCat, Google Mobile Ads (RewardedAd), SQLite and Print in the dex  | ✅ `expo prebuild` + `gradlew assembleDebug`, 2026-09-16 — four attempts; see `plugins/withKotlinMetadataCheck.js`                                                                                                 |

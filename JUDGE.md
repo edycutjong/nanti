@@ -18,7 +18,7 @@ Without a phone: `npm install --legacy-peer-deps && npx tsx bin/surat.ts demo 1 
 
 |                                                      | Value                                                                                                                                                                 | How to verify                                 |
 | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| Tests                                                | **73**, < 2 s, no device, no key                                                                                                                                      | `npm test`                                    |
+| Tests                                                | **79**, < 2 s, no device, no key                                                                                                                                      | `npm test`                                    |
 | Exhaustive verification                              | **70,602** ledger transitions — debt ∈ {0,1}, never lowered by a client event; **299,592** settle-machine paths — `settled` reached only via `verified`; 0 violations | `tests/exhaustive.test.ts`                    |
 | Self-ablation                                        | **0** client-side settle increments in `src/`                                                                                                                         | `npm run ablation` · `tests/boundary.test.ts` |
 | Templates                                            | 8, byte-identical to golden files; p95 ≤ 4 µs per render                                                                                                              | `npm test` · `npm run bench`                  |
@@ -34,11 +34,11 @@ Without a phone: `npm install --legacy-peer-deps && npx tsx bin/surat.ts demo 1 
 git clone https://github.com/edycutjong/nanti && cd nanti
 npm install --legacy-peer-deps
 npm test && npm run bench && npm run verify:offline && npm run ablation
-# the app: cp .env.example .env   # RevenueCat Test Store key · the real settle_rewarded unit · AdMob app id
+# the app: cp .env.example .env   # RevenueCat Test Store key · AdMob app id (dev builds always use Google's test ad unit)
 npx expo prebuild --platform android && npx expo run:android
 ```
 
-No offline / mock / demo flag exists. With Google's sample ad unit (the fallback when the real unit is unset) the ad plays but verification **correctly fails** and the tab stays — the app never pretends a grant happened. `verify:offline` checks only the offline-capable parts and says so.
+No offline / mock / demo flag exists. A dev build always requests Google's test ad unit (AdMob policy; the real unit is release-only). On it the ad plays but verification **correctly fails** and the tab stays — the app never pretends a grant happened. `verify:offline` checks only the offline-capable parts and says so.
 
 ## Honest limitations
 

@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320" role="img" aria-label="Nanti — The amber one-ad tab under a delivered letter turns green the instant RevenueCat verifies the reward.">
 <!-- STORYBOARD (dur 8s — must equal this file's single master dur)
   0-14%   steady state: plate + grid + aurora, mini mark, outlined Nan|ti wordmark, tagline, metric + tech lines; right: the delivered letter with the amber outline tab "Tab: 1 ad owed · pay later", the RevenueCat ring and the dashed route between them — all visible at t=0 (poster rule)
-  14-34%  trigger:      the user settles: an amber comet leaves the tab along the route to the RevenueCat ring (the rewarded ad plays, AdMob SSV calls RevenueCat); caption "watch 1 rewarded ad (~20 s) → AdMob SSV"        data-story="beat-2"
+  14-34%  trigger:      the user settles: an amber comet leaves the tab along the route to the RevenueCat ring (the rewarded ad plays, AdMob SSV calls RevenueCat); caption "watch 1 rewarded ad → AdMob SSV"        data-story="beat-2"
   32-52%  mechanism:    The amber one-ad tab under a delivered letter turns green the instant RevenueCat verifies the reward.        data-story="beat-3"
   50-92%  resolution:   the tab STAYS green ("Settled · ADS 0 → 1"), the ring stays green, the receipt lines persist, the beam sweeps once (it lifts measured ink ~5% while crossing 56-84%), the mini mark's tab echoes green        data-story="beat-4"
   92-100% breathe + seam fade: story layers fade out 92-98% and hold at 0 so the loop restarts on the amber poster without a hard cut (rules 5-7)
@@ -168,7 +168,7 @@
     </g>
 
     <!-- beat-2: caption while the ad plays -->
-    <text x="748" y="272" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#F2A93B" opacity="0" data-story="beat-2">watch 1 rewarded ad (~20 s) → AdMob SSV<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.14;0.18;0.32;0.36;1" dur="8s" repeatCount="indefinite"/></text>
+    <text x="748" y="272" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#F2A93B" opacity="0" data-story="beat-2">watch 1 rewarded ad → AdMob SSV<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.14;0.18;0.32;0.36;1" dur="8s" repeatCount="indefinite"/></text>
 
     <!-- beat-2: amber comet from the tab to RevenueCat (the ad plays; SSV reports) -->
     <g opacity="0" data-story="beat-2">

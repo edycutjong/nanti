@@ -31,9 +31,14 @@
 ```bash
 cp .env.example .env           # real keys + the settle_rewarded unit id
 set -a; . ~/.config/nanti/secrets.env; set +a
-npx expo prebuild --platform android && npx expo run:android --device
+# RELEASE variant: dev builds always request Google's test unit (AdMob policy), on which SSV cannot run.
+# The phone must be the registered AdMob test device (P9) so the live unit serves test creatives.
+npx expo prebuild --platform android && npx expo run:android --variant release --device
 # make one letter → share → tap the pill → "Tonton 1 iklan" ×3
 # Settings → Bukti RevenueCat shows the last 5 settles with their Δ timings
+# NOTE: `run-as` works only on a debuggable build, so it cannot read a release build's DB. For the 3/3
+# pass condition, read the rows off Settings → Bukti RevenueCat. The N ≥ 20 SETTLE-LOG export below
+# still needs a way to get settle_log off a release build — not built yet.
 adb shell "run-as dev.edycu.nanti cat databases/nanti.db" > /tmp/nanti.db
 sqlite3 -json /tmp/nanti.db "select * from settle_log order by t_earned" > /tmp/settle.json
 npm run settle-log -- /tmp/settle.json     # → docs/SETTLE-LOG.md
