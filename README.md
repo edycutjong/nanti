@@ -69,7 +69,7 @@ Delete RevenueCat and there is no verified ledger of settled ads → the tab can
 | Settings                            | `restorePurchases()`                                                                                                                         | judge / reinstall path                                                               |
 | After every export                  | `setAttributes({ letters_made, writer_tier })` + `syncAttributesAndOfferingsIfNeeded()`                                                      | Targeting: `writer_tier = heavy` → offering `heavy` (lifetime first) at `tab_locked` |
 
-Dashboard objects: entitlement `pro` · products `nanti_pro_monthly` (7-day free trial — the judge path) + `nanti_pro_lifetime` · offerings `default` / `heavy` · placement `tab_locked` · virtual currency `ADS` · Rewards rule `settle_rewarded → ADS × 1` · AdMob OAuth connection.
+Dashboard objects created: entitlement `pro` · virtual currency `ADS` · Rewards rule `settle_rewarded → ADS × 1` · AdMob OAuth connection. **Configured in code, not yet created in the dashboard (as of 2026-09-26):** products `nanti_pro_monthly` (7-day free trial) + `nanti_pro_lifetime` · offerings `default` / `heavy` · placement `tab_locked` · the paywall.
 
 ## 🧪 Run it without credentials
 
@@ -111,7 +111,7 @@ npm run secrets        # gitleaks over the tree (CI runs it over full history)
 | Build verification                          | Metro export + bundle assertions; Android `assembleDebug` + manifest inspection (main)                                       | ✅                                                                     |
 | Security (SAST / SCA)                       | CodeQL · Dependabot alerts + security updates · version updates grouped, no majors, beta + Expo-pinned SDKs held · npm audit | ✅                                                                     |
 | Secret scanning                             | gitleaks (full history) · TruffleHog (verified) · GitHub secret scanning + push protection                                   | ✅                                                                     |
-| Performance                                 | template bench (p95 budget 5 ms, golden drift fails) · ledger 28 ns/transition                                               | ✅                                                                     |
+| Performance                                 | template bench (p95 budget 5 ms, golden drift fails) · ledger ≈ 30 ns/transition                                             | ✅                                                                     |
 | Release                                     | semantic version from Angular commits (`release.yml`)                                                                        | ✅                                                                     |
 | Community                                   | CoC · Contributing · Security policy · issue & PR templates · MIT                                                            | ✅                                                                     |
 | **G1 spike · settle log · device purchase** | —                                                                                                                            | ⏳ pending — the project is conditional on the spike (`docs/SPIKE.md`) |

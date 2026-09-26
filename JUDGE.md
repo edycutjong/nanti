@@ -1,15 +1,15 @@
 # For the judge — Nanti in 30 seconds
 
-**The letter now, the ad later: a correctly formatted Indonesian formal letter as a PDF in under a minute, then one rewarded ad on a visible tab that only RevenueCat's server can mark as paid.**
+**The letter now, the ad later: a correctly formatted Indonesian formal letter as a PDF, delivered first, then one rewarded ad on a visible tab that only RevenueCat's server can mark as paid.**
 
 > ⚠️ **Conditional project.** The settle round-trip (ad → AdMob server-side verification → RevenueCat → `ADS +1`) is fully built and in the bundle, but has **not yet run on a device**. `docs/SPIKE.md` is the protocol and carries `RESULT: not yet run`. Everything below that depends on it is marked pending.
 
 ## The 30-second path (no setup, no keys)
 
-1. Install the app — _there is no Play listing yet (not submitted as of 2026-09-23); its link lands here when it is published. Until then the path below runs on a dev build — `DEMO.md` §2._
+1. Install the app — _there is no live Play listing yet (production upload in progress as of 2026-09-26); its link lands here when it is published. Until then the path below runs on a dev build — `DEMO.md` §2._
 2. **Surat Izin Tidak Masuk Kerja** → five fields (city and date are already filled) → the paper preview updates as you type → **Buat PDF** → the share sheet opens with a real file name. _No ad has appeared._
 3. Back on Home: the amber pill **`Tab: 1 iklan · bayar nanti`**.
-4. Tap any tile → the Settle sheet. **Tonton 1 iklan** → ad → _memverifikasi…_ → `ADS 0 → 1`, the pill turns green once and disappears. Or **Nanti Pro** → the RevenueCat paywall (7-day free trial — the judge unlock) → violet **Pro** chip, no tab ever again.
+4. Tap any tile → the Settle sheet. **Tonton 1 iklan** → ad → _memverifikasi…_ → `ADS 0 → 1`, the pill turns green once and disappears. Or **Nanti Pro** → the RevenueCat paywall → violet **Pro** chip, no tab ever again.
 5. Settings → **Bukti RevenueCat**: live `ADS` balance, `pro` entitlement, app user id, last 5 settles with Δ timings.
 
 Without a phone: `npm install --legacy-peer-deps && npx tsx bin/surat.ts demo 1 > letter.html` renders the exact HTML the PDF is printed from.
@@ -44,6 +44,7 @@ No offline / mock / demo flag exists. With Google's sample ad unit (the fallback
 
 - **The judged round-trip is unverified on a device.** It follows RevenueCat's own React Native sample and the published typings; whether AdMob's SSV callback completes inside 60 s depends on an approved AdMob account, RevenueCat Ads beta access and a registered test device — none of which live in this repo.
 - RevenueCat Ads on React Native is **beta** (`@beta` on every reward method). Versions are pinned; `Dependabot` ignores them.
+- The Pro products (`nanti_pro_monthly` with a 7-day trial, `nanti_pro_lifetime`), offerings, the `tab_locked` placement and the paywall are configured in code but **not yet created** in the RevenueCat / Play dashboards; until they are, the paywall has nothing to sell.
 - A brand-new AdMob app has limited fill before its Play listing is approved, so an early install may only ever see the _Lanjut dulu_ grace path. The receipts (SPIKE.md, SETTLE-LOG.md) carry the proof in that case.
 - Native build needs `-Xskip-metadata-version-check` (Kotlin 2.1 toolchain vs. Kotlin-2.3-built `play-services-ads 25.4.0`). Documented in `plugins/withKotlinMetadataCheck.js`; drop when Expo's Kotlin catches up.
 

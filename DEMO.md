@@ -12,13 +12,13 @@ npm test && npm run bench && npm run verify:offline && npm run ablation
 npx tsx bin/surat.ts demo 1 > /tmp/letter1.html && open /tmp/letter1.html
 ```
 
-Expected (2026-09-23, Node 22, Apple M-series):
+Expected (re-run 2026-09-26, Apple M-series):
 
 ```
 Tests  73 passed (73)
 nanti bench — 8 templates × 1000 renders
   izin-kerja  2109 bytes  p50 2 µs  p95 2 µs   …   PASS (golden 8/8)
-  ledger: 200,000 transitions, 28 ns each
+  ledger: 200,000 transitions, 30 ns each
 ablation: 0 client-side settle increments in src/ (must be 0)
 ```
 
@@ -28,7 +28,7 @@ ablation: 0 client-side settle increments in src/ (must be 0)
 2. **Surat Izin Tidak Masuk Kerja** → the five fields (city and date already filled) → the paper preview updates on every keystroke → **Buat PDF** → the share sheet opens with `Surat-Izin-Kerja-<name>-<date>.pdf`. _Nothing about an ad has appeared yet._
 3. Back on Home: the amber pill **`Tab: 1 iklan · bayar nanti`** slides in.
 4. Tap any tile → the Settle sheet. **Tonton 1 iklan** → the rewarded ad plays → _memverifikasi…_ → the counter ticks `ADS 0 → 1`, the pill turns green for 2 s and disappears. (Requires the real `settle_rewarded` unit with SSV → RevenueCat; on the sample unit this step correctly ends in _Verifikasi gagal_ and the tab stays.)
-5. Make a second letter (Surat Kuasa — visibly different structure). Pill again. This time tap **Nanti Pro** → the RevenueCat paywall at placement `tab_locked` → start the 7-day trial (Test Store: instant) → the pill is replaced by a violet **Pro** chip and never returns.
+5. Make a second letter (Surat Kuasa — visibly different structure). Pill again. This time tap **Nanti Pro** → the RevenueCat paywall at placement `tab_locked` → start the 7-day trial (Test Store: instant; **requires the products, offering and paywall, which are not yet created in the dashboard**) → the pill is replaced by a violet **Pro** chip and never returns.
 6. Settings → **Bukti RevenueCat**: live `ADS` balance, `pro` entitlement, app user id, the last 5 settles with `verify Δ` and `balance Δ` in seconds. **Restore purchases** and the language override (auto / Indonesia / English) are here too.
 
 ## 3. Receipts
@@ -43,7 +43,7 @@ ablation: 0 client-side settle increments in src/ (must be 0)
 | `docs/SETTLE-LOG.md` — N ≥ 20 real settles, p50/p95 as measured                                                            | **pending — needs G1 first** (`npm run settle-log`); no rows exist                                                                                                                                                 |
 | Test Store Pro purchase → `entitlements.active.pro`                                                                        | **pending — not yet run on a device**                                                                                                                                                                              |
 | Play Billing sandbox purchase (license tester)                                                                             | **pending — not yet run**                                                                                                                                                                                          |
-| Play production submission                                                                                                 | **pending — not yet submitted** (as of 2026-09-23)                                                                                                                                                                 |
+| Play production submission                                                                                                 | **pending — production upload in progress, not live** (as of 2026-09-26)                                                                                                                                           |
 | Demo video (< 2 min, real device, share sheet cropped, ad creative blurred)                                                | **not recorded** — no video exists yet; the link lands here and in `JUDGE.md` when it does                                                                                                                         |
 
 ## 4. The killer number
