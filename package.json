@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "main": "index.js",
-  "description": "The letter now. The ad later. Formal Indonesian letters as a PDF in under a minute; one rewarded ad owed afterwards, settled by RevenueCat \u2014 or cleared for good with Pro.",
+  "description": "The letter now. The ad later. Formal Indonesian letters as a PDF, delivered first; one rewarded ad owed afterwards, settled by RevenueCat \u2014 or cleared for good with Pro.",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",

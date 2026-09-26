@@ -23,16 +23,16 @@
 <body>
 <main>
   <p><a href="index.html">← Nanti</a></p>
-  <h1>The letter now, the ad later: a correctly formatted Indonesian formal letter as a PDF in under a minute, then one rewarded ad on a visible tab that only RevenueCat's server can mark as paid.</h1>
+  <h1>The letter now, the ad later: a correctly formatted Indonesian formal letter as a PDF, delivered first, then one rewarded ad on a visible tab that only RevenueCat's server can mark as paid.</h1>
 
   <div class="warn"><strong>Conditional project.</strong> The settle round-trip (ad → AdMob server-side verification → RevenueCat → <code>ADS +1</code>) is fully built and in the bundle but has <strong>not yet run on a device</strong>. <code>docs/SPIKE.md</code> carries <code>RESULT: not yet run</code>. Everything below that depends on it is marked pending.</div>
 
   <h2>The 30-second path (no setup, no keys)</h2>
   <ol>
-    <li>Install the app — <em>there is no Play listing yet (not submitted as of 2026-09-23); its link lands here when it is published. Until then the path below runs on a dev build — <code>DEMO.md</code> §2.</em></li>
+    <li>Install the app — <em>there is no live Play listing yet (production upload in progress as of 2026-09-26); its link lands here when it is published. Until then the path below runs on a dev build — <code>DEMO.md</code> §2.</em></li>
     <li><strong>Surat Izin Tidak Masuk Kerja</strong> → five fields (city and date already filled) → the paper preview updates as you type → <strong>Buat PDF</strong> → the share sheet opens with a real file name. <em>No ad has appeared.</em></li>
     <li>Back on Home: the amber pill <code>Tab: 1 iklan · bayar nanti</code>.</li>
-    <li>Tap any tile → the Settle sheet. <strong>Tonton 1 iklan</strong> → ad → <em>memverifikasi…</em> → <code>ADS 0 → 1</code>, the pill turns green once and disappears. Or <strong>Nanti Pro</strong> → the RevenueCat paywall (7-day free trial — the judge unlock) → violet <strong>Pro</strong> chip.</li>
+    <li>Tap any tile → the Settle sheet. <strong>Tonton 1 iklan</strong> → ad → <em>memverifikasi…</em> → <code>ADS 0 → 1</code>, the pill turns green once and disappears. Or <strong>Nanti Pro</strong> → the RevenueCat paywall → violet <strong>Pro</strong> chip.</li>
     <li>Settings → <strong>Bukti RevenueCat</strong>: live <code>ADS</code> balance, <code>pro</code> entitlement, app user id, last 5 settles with Δ timings.</li>
   </ol>
   <p>Without a phone: <code>npm install --legacy-peer-deps &amp;&amp; npx tsx bin/surat.ts demo 1 &gt; letter.html</code> renders the exact HTML the PDF is printed from.</p>
@@ -63,13 +63,14 @@ npx expo prebuild --platform android &amp;&amp; npx expo run:android</pre>
   <ul>
     <li><strong>The judged round-trip is unverified on a device.</strong> It follows RevenueCat's own React Native sample and the published typings; whether AdMob's SSV callback completes inside 60 s depends on an approved AdMob account, RevenueCat Ads beta access and a registered test device.</li>
     <li>RevenueCat Ads on React Native is <strong>beta</strong>; versions are pinned.</li>
+    <li>The Pro products (<code>nanti_pro_monthly</code> with a 7-day trial, <code>nanti_pro_lifetime</code>), offerings, the <code>tab_locked</code> placement and the paywall are configured in code but <strong>not yet created</strong> in the RevenueCat / Play dashboards; until they are, the paywall has nothing to sell.</li>
     <li>A brand-new AdMob app has limited fill before its Play listing is approved — an early install may only ever see the <em>Lanjut dulu</em> grace path.</li>
     <li>The native build needs <code>-Xskip-metadata-version-check</code> (Kotlin 2.1 toolchain vs. Kotlin-2.3-built <code>play-services-ads 25.4.0</code>); documented in <code>plugins/withKotlinMetadataCheck.js</code>.</li>
   </ul>
 
   <h2>Links</h2>
   <p><a href="https://github.com/edycutjong/nanti">Repository</a> · Play listing (not published yet) · Demo video (not recorded yet) · <a href="index.html">Landing</a> · <a href="privacy.html">Privacy</a> · <a href="https://github.com/edycutjong/nanti/blob/main/DEMO.md">DEMO.md</a> · <a href="https://github.com/edycutjong/nanti/blob/main/docs/SPIKE.md">docs/SPIKE.md</a></p>
-  <p style="color:#94A3B8;font-size:13px;margin-top:40px">Mirror of <code>JUDGE.md</code> in the repository · updated 2026-09-23.</p>
+  <p style="color:#94A3B8;font-size:13px;margin-top:40px">Mirror of <code>JUDGE.md</code> in the repository · updated 2026-09-26.</p>
 </main>
 </body>
 </html>
