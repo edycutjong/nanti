@@ -22,7 +22,7 @@ const config: ExpoConfig = {
   splash: { image: './assets/splash.png', resizeMode: 'contain', backgroundColor: '#0F1419' },
   android: {
     package: 'dev.edycu.nanti',
-    versionCode: 3,
+    versionCode: 4,
     adaptiveIcon: { foregroundImage: './assets/adaptive-icon.png', backgroundColor: '#0F1419' },
     permissions: ['VIBRATE', 'com.android.vending.BILLING'],
     blockedPermissions: [
@@ -34,7 +34,14 @@ const config: ExpoConfig = {
   plugins: [
     [
       'expo-build-properties',
-      { android: { compileSdkVersion: 36, targetSdkVersion: 36, buildToolsVersion: '36.0.0' } },
+      {
+        android: {
+          compileSdkVersion: 36,
+          targetSdkVersion: 36,
+          buildToolsVersion: '36.0.0',
+          enableMinifyInReleaseBuilds: true,
+        },
+      },
     ],
     [
       'react-native-google-mobile-ads',
